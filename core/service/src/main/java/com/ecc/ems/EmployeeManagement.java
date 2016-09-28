@@ -17,7 +17,7 @@ import com.ecc.ems.Employee;
 public class EmployeeManagement implements EmployeeManagementDAO{
     
     private SessionFactory factory;
-    private String FILEPATH = "/home/ecc/Desktop/Training/09-26/ems/infra/persistence/src/main/resources/hibernate.cfg.xml";
+    private String FILEPATH = "/home/ecc/Desktop/Training/09-26/ems/infra/build-tools/src/main/resources/hibernate.cfg.xml";
     private File configFile = new File(FILEPATH);
     
     public EmployeeManagement(){
@@ -28,7 +28,7 @@ public class EmployeeManagement implements EmployeeManagementDAO{
             factory = config.buildSessionFactory(registry);
         }
         catch(HibernateException e){
-            System.out.println(e);
+            System.out.println("Initial creation failed. " + e);
             throw new ExceptionInInitializerError(e);
         }
     }
@@ -75,6 +75,10 @@ public class EmployeeManagement implements EmployeeManagementDAO{
         return empList;
     }
     
+    public int printMenu(){
+        
     
+    
+    }
 
 }

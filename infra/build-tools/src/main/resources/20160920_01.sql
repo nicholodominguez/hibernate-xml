@@ -1,6 +1,4 @@
 
-CREATE DATABASE emsDB;
-
 CREATE TABLE IF NOT EXISTS employee(
     emp_id SERIAL PRIMARY KEY,
     firstname character varying [30] default NULL,
