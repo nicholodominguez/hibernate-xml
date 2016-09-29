@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE hibernate-configuration SYSTEM "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
   <session-factory>
     <property name="hibernate.dialect">
@@ -10,7 +10,7 @@
     </property>
     
     <property name="hibernate.connection.url">
-      jdbc:postgresql://localhost:5432/emsDB
+      jdbc:postgresql://localhost:5432/emsdb
     </property>
     <property name="hibernate.connection.username">
       postgres
@@ -19,13 +19,15 @@
       postgres
     </property>
     <property name="hibernate.hbm2ddl.import_files">
-      /home/ecc/Desktop/Training/09-26/ems/infra/build-tools/src/main/resources/20160920_01.sql 
+      infra/build-tools/20160929_01.sql 
     </property>
     <property name="hibernate.hbm2ddl.auto">
-      create
+      create 
     </property>
     
     <!-- List of XML mapping files -->
+    <mapping class="com.ecc.ems.Employee"/>
+    <mapping class="com.ecc.ems.Role"/>
     <mapping class="com.ecc.ems.Employee"/>
   </session-factory>
 </hibernate-configuration>

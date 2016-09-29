@@ -5,7 +5,7 @@ import java.util.List;
 import com.ecc.ems.Name;
 import com.ecc.ems.Address;
 
-public class Employee extends BaseEntity{
+public class Employee extends BaseEntity implements Comparable<Employee>{
     private Name name;
     private Address address;
     private Date bdate;
@@ -71,4 +71,9 @@ public class Employee extends BaseEntity{
     public void setRoles(List roles) {
         this.roles = roles;
     }
+    
+    public double compareTo(Employee compareEmp) {
+		double compareGwa = ((Employee) compareEmp).getGwa();
+		return (this.getGwa - compareGwa);
+	}
 }

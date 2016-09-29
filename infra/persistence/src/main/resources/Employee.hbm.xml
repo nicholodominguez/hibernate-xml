@@ -22,13 +22,12 @@
         <property name="zipcode" type="string"/>
         <property name="country" type="string"/>
     </component>
-    <component name="contact" class="Contact"/>
-        <property name="street" column="street" type="string"/>
-        <property name="brgy" column="brgy" type="string"/>
-        <property name="municipality" column="municipality" type="string"/>
-        <property name="zipcode" column="zipcode" type="string"/>
-        <property name="country" column="country" type="string"/>
-    </component>
+    <list name="contact" table="emp_contact" cascade="all">
+      <key column="emp_id"/>
+      <many-to-many column="contact_id" class="Contact"/>
+      <property name="detail" column="detail" type="string"/>
+      <property name="status" column="emp_status" type="string"/>
+    </list>
     <property name="bdate" column="bdate" type="date"/>
     <property name="gwa" column="gwa" type="double"/>
     <property name="dateHired" column="dateHired" type="date"/>
@@ -37,17 +36,6 @@
       <many-to-many column="role_id" class="Role"/>
     </list>
     <property name="status" column="emp_status" type="string"/>
-  </class>
-  
-  <class name="Role" table="role">
-    <meta attribute="class-description">
-      This class contains the role detail.
-    </meta>
-    <id name="id" type="int" column="role_id">
-      <generator class="native"/>
-    </id>
-    <property name="name" column="role_name" type="string"/>
-    <property name="status" column="role_status" type="boolean"/>
   </class>
 </hibernate-mapping>
 

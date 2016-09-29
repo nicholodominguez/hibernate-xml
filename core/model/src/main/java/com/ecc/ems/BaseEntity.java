@@ -1,8 +1,8 @@
 package com.ecc.ems;
 
 class BaseEntity{
-    private int id;
-    private boolean status;
+    protected int id;
+    protected boolean status;
     
     public BaseEntity() {}
     
