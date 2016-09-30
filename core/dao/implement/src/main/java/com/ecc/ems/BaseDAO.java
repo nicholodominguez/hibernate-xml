@@ -73,7 +73,7 @@ public BaseDAO implements BaseDAOInterface<T, Id>{
 	    return entities;
     }
     
-    public List<T> delete(T entity){
+    public void delete(T entity){
         this.currentSession = factory.openSession();
         
         try{

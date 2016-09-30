@@ -11,7 +11,7 @@ import com.ecc.ems.Employee;
 import java.util.List;
 import java.util.Collection;
 
-public interface EmployeeDAO implements EmployeeDAOInterface<Employee, Int>{
+public interface EmployeeDAO implements EmployeeDAOInterface{
     
     private Criteria crit;
     
@@ -83,7 +83,13 @@ public interface EmployeeDAO implements EmployeeDAOInterface<Employee, Int>{
 	    
 	    try{
             this.currentTransaction = this.currentSession.beginTransaction();
-            entities = (List<Employee>) this.currentSession.createQuery("fromEmployee").list();
+            entities = (List<Employee>) this.currentSession.createQuery("from Employee").list();
+            if (ifAscending){
+                Collections.sort(entities);
+            }
+            else{
+                Collections.sort(entities, Collections.reverseOrder());
+            }
             this.currentTransaction.commit();
         }catch (HibernateException e) {
             if (this.currentTransaction != null) {

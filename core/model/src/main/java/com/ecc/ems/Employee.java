@@ -2,6 +2,10 @@ package com.ecc.ems;
 
 import java.util.Date;
 import java.util.List;
+import java.text.Format;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 import com.ecc.ems.Name;
 import com.ecc.ems.Address;
 
@@ -75,5 +79,14 @@ public class Employee extends BaseEntity implements Comparable<Employee>{
     public double compareTo(Employee compareEmp) {
 		double compareGwa = ((Employee) compareEmp).getGwa();
 		return (this.getGwa - compareGwa);
+	}
+	
+	public List<String> toString() {
+	    ArrayList<String> list = new ArrayList();
+	    
+	    list.add("Name: " + this.getFullname());
+	    list.add("Address: " + this.address.toString());
+	    list.add("Birthdate: " + this.address.toString());
+        //CONTINUE HERE	
 	}
 }

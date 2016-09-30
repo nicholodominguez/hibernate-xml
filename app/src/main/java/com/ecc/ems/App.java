@@ -7,20 +7,37 @@ import java.io.File;
 
 import com.ecc.ems.EmployeeManagement;
 import com.ecc.ems.Employee;
+import com.ecc.ems.Name;
+import com.ecc.ems.Address;
+import com.ecc.ems.Contact;
+import com.ecc.ems.Roles;
+import com.ecc.ems.InputValidator;
 
 public class App{
-    public static void main(String args[]){
+    public static void main(String args[]) {
          
         EmployeeManagement em = new EmployeeManagement();
         int choice;
         
-        do{
+        do {
             choice = printMenu();
-        
+            switch(choice) {
+                case 1:
+                    addEmployee();
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                default:
+                    System.out.println("Invalid input");
+            }
         }
     }
     
-    public int printMenu(){
+    public int printMenu() {
         System.out.println("==============================");
         System.out.println("|----------------------------|");
         System.out.println("| Employee Management System |");
@@ -45,7 +62,36 @@ public class App{
         System.out.println("| [0] Delete Contact         |");
         System.out.println("|----------------------------|");
         System.out.println("==============================");
-        System.out.print(" Option: ");
+        return InputValidator.getInputMenu(" Option: ", 4);
+    }
+    
+    public int printAddEmployeeMenu(Employee emp) {
+        System.out.println("============================");
+        System.out.println(" Employee Creation          ");
+        System.out.println("============================");
+        printEmployeeInfo(emp, true);
+        System.out.println("----------------------------");
+        return InputValidator.getInputMenu(" Option: ", 8);
+    }
+    
+    public void printEmployeeInfo(Employee emp, boolean isMenu) {
+        Name name;
+        Address address;
+        Contact contact;
+        Roles roles;
+        int i = 1;
+        
+        switch(i) {
+            
+        
+        
+        }
+        
+    }
+    
+    public void addEmployee() {
+        Employee emp;
+        
         
     
     }

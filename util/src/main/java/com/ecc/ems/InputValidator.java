@@ -29,6 +29,34 @@ public final class InputValidator{
         return row;    
     }
 
+    public static int getInputMenu(String msg, int size){
+        Scanner sc = new Scanner(System.in);
+        boolean isAlpha = true;
+        int floor = 1;
+        String limit = "one";
+        int row = 0;
+        
+        while(isAlpha){
+            try{
+                System.out.print(msg);
+                row = Integer.parseInt(sc.nextLine());
+                if(row < floor){
+                    System.out.println("Integer too low, it should be greater than "+limit);    
+                }
+                else if(row > size){
+                    System.out.println("Integer too high, it should be less than "+size);    
+                }
+                else isAlpha = false;
+            }catch(NumberFormatException e){
+                isAlpha = true;
+                System.out.println("Input not an integer");
+            }
+        }    
+        
+
+        return row;    
+    }
+    
     public static String getInputStr(String msg, int maxLen){
         Scanner sc = new Scanner(System.in);
         boolean isValid = false;
