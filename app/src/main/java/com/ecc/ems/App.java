@@ -5,27 +5,28 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.io.File;
 
-import com.ecc.ems.EmployeeManagement;
+import com.ecc.ems.EmployeeService;
 import com.ecc.ems.Employee;
 import com.ecc.ems.Name;
 import com.ecc.ems.Address;
 import com.ecc.ems.Contact;
-import com.ecc.ems.Roles;
+import com.ecc.ems.Role;
 import com.ecc.ems.InputValidator;
 
 public class App{
     public static void main(String args[]) {
          
-        EmployeeManagement em = new EmployeeManagement();
+        EmployeeService em = new EmployeeService();
         int choice;
         
-        do {
-            choice = printMenu();
+        do{
+            choice = App.printMenu();
             switch(choice) {
                 case 1:
-                    addEmployee();
+                    App.addEmployee(em);
                     break;
                 case 2:
+                    App.printEmployees(em);
                     break;
                 case 3:
                     break;
@@ -34,10 +35,10 @@ public class App{
                 default:
                     System.out.println("Invalid input");
             }
-        }
+        } while (choice < 5);
     }
     
-    public int printMenu() {
+    public static int printMenu() {
         System.out.println("==============================");
         System.out.println("|----------------------------|");
         System.out.println("| Employee Management System |");
@@ -62,10 +63,10 @@ public class App{
         System.out.println("| [0] Delete Contact         |");
         System.out.println("|----------------------------|");
         System.out.println("==============================");
-        return InputValidator.getInputMenu(" Option: ", 4);
+        return InputValidator.getInputMenu(" Option: ", 5);
     }
     
-    public int printAddEmployeeMenu(Employee emp) {
+    public static int printAddEmployeeMenu(Employee emp) {
         System.out.println("============================");
         System.out.println(" Employee Creation          ");
         System.out.println("============================");
@@ -74,25 +75,27 @@ public class App{
         return InputValidator.getInputMenu(" Option: ", 8);
     }
     
-    public void printEmployeeInfo(Employee emp, boolean isMenu) {
-        Name name;
-        Address address;
-        Contact contact;
-        Roles roles;
-        int i = 1;
-        
-        switch(i) {
-            
-        
-        
+    public static void printEmployeeInfo(Employee emp, boolean isMenu) {
+        List<String> empInfo = emp.stringify();
+        for(int i = 0; i < empInfo.size(); i++){
+            if(isMenu){
+                System.out.print("[" + i + "] "); 
+            }
+            System.out.println(empInfo.get(i));    
         }
-        
     }
     
-    public void addEmployee() {
-        Employee emp;
-        
-        
+    public static void addEmployee(EmployeeService es) {
+        Employee emp;   
+    }
     
+    public static void printEmployees(EmployeeService es) {
+        List<Employee> empList = es.listEmployee();
+        
+        if(empList != null){
+            for(Employee emp : empList){
+                App.printEmployeeInfo(emp, false);
+            }
+        }   
     }
 }

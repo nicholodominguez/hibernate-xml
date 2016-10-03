@@ -9,6 +9,15 @@
       org.postgresql.Driver
     </property>
     
+    <property name="hibernate.hbm2ddl.auto">
+      create 
+    </property>
+    <property name="hibernate.hbm2ddl.import_files">
+      /home/ecc/Desktop/Training/09-26/ems/infra/build-tools/src/main/resources/20161003_02.sql 
+    </property>
+    <property name="hibernate.hbm2ddl.import_files_sql_extractor">
+      org.hibe‌​rnate.tool.hbm2ddl.M‌​ultipleLinesSqlComma‌​ndExtractor
+    </property>
     <property name="hibernate.connection.url">
       jdbc:postgresql://localhost:5432/emsdb
     </property>
@@ -18,17 +27,14 @@
     <property name="hibernate.connection.password">
       postgres
     </property>
-    <property name="hibernate.hbm2ddl.import_files">
-      infra/build-tools/20160929_01.sql 
-    </property>
-    <property name="hibernate.hbm2ddl.auto">
-      create 
+    <property name="show_sql">
+      true
     </property>
     
     <!-- List of XML mapping files -->
     <mapping class="com.ecc.ems.Employee"/>
     <mapping class="com.ecc.ems.Role"/>
-    <mapping class="com.ecc.ems.Employee"/>
+    <mapping class="com.ecc.ems.Contact"/>
   </session-factory>
 </hibernate-configuration>
 

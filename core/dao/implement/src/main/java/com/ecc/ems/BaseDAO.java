@@ -8,14 +8,16 @@ import org.hibernate.SessionFactory;
 import java.io.Serializable;
 import java.util.List;
 
-public BaseDAO implements BaseDAOInterface<T, Id>{
+public abstract class BaseDAO<T, Id extends Serializable> implements BaseDAOInterface<T, Id>{
     
     protected SessionFactory factory;
     protected Session currentSession;
     protected Transaction currentTransaction;
+    protected Class<T> clazz;
     
-    public BaseDAO(SessionFactory factory) {
+    public BaseDAO(SessionFactory factory, Class<T> clazz) {
         this.factory = factory;    
+        this.clazz = clazz;
     }
     
     public void persist(T entity) {
@@ -40,7 +42,7 @@ public BaseDAO implements BaseDAOInterface<T, Id>{
         
         try{
             this.currentTransaction = this.currentSession.beginTransaction();
-            entity = (T) this.currentSession.get(T.class, id);
+            entity = (T) this.currentSession.get(this.clazz.getName(), id);
             this.currentTransaction.commit();
         }catch (HibernateException e) {
             if (this.currentTransaction != null) {

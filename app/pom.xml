@@ -11,11 +11,7 @@
   
   <artifactId>app</artifactId>
   
-  <dependencies>
-    <dependency>
-      <groupId>org.javassist</groupId>
-      <artifactId>javassist</artifactId>
-    </dependency>    
+  <dependencies>   
     <dependency>
       <groupId>com.ecc.ems</groupId>
       <artifactId>service</artifactId>

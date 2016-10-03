@@ -10,4 +10,12 @@
   </parent>
   
   <artifactId>implement</artifactId>
+  
+  <dependencies>
+    <dependency>
+      <groupId>com.ecc.ems</groupId>
+      <artifactId>interface</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
 </project>

@@ -2,9 +2,11 @@ package com.ecc.ems;
 
 import java.util.Date;
 import java.util.List;
+import java.util.ArrayList;
 import java.text.Format;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.lang.Comparable;
 
 import com.ecc.ems.Name;
 import com.ecc.ems.Address;
@@ -36,7 +38,7 @@ public class Employee extends BaseEntity implements Comparable<Employee>{
         return address;
     }
     
-    public Date getbdate() {
+    public Date getBdate() {
         return bdate;
     }
     
@@ -60,7 +62,7 @@ public class Employee extends BaseEntity implements Comparable<Employee>{
         this.address = address;
     }
     
-    public void setbdate(Date bdate) {
+    public void setBdate(Date bdate) {
         this.bdate = bdate;
     }
     
@@ -76,17 +78,21 @@ public class Employee extends BaseEntity implements Comparable<Employee>{
         this.roles = roles;
     }
     
-    public double compareTo(Employee compareEmp) {
+    public int compareTo(Employee compareEmp) {
 		double compareGwa = ((Employee) compareEmp).getGwa();
-		return (this.getGwa - compareGwa);
+		return (int)(this.getGwa() - compareGwa);
 	}
 	
-	public List<String> toString() {
+	public List<String> stringify() {
+	    DateFormat df = new SimpleDateFormat("MMM/dd/yyyy");
 	    ArrayList<String> list = new ArrayList();
 	    
-	    list.add("Name: " + this.getFullname());
+	    list.add("Name: " + this.name.getFullname());
 	    list.add("Address: " + this.address.toString());
-	    list.add("Birthdate: " + this.address.toString());
-        //CONTINUE HERE	
+	    list.add("Birthdate: " + df.format(this.getBdate()));
+        list.add("GWA: " + String.valueOf(this.getGwa()));	
+        list.add("Date Hired: " + df.format(this.getDateHired()));	
+        
+        return list;
 	}
 }

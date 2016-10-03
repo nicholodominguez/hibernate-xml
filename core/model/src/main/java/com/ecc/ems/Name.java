@@ -57,7 +57,7 @@ public class Name{
         this.title = title;
     }
     
-    public String toString() {
+    public String getFullname() {
         return this.getTitle() + ". " + this.getLastname() + ", " + this.getFirstname() + " " + this.getMiddlename() + " " + this.getSuffix(); 
     }
 }

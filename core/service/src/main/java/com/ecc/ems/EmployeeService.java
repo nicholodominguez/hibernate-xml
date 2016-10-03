@@ -20,17 +20,17 @@ public class EmployeeService{
     private SessionFactory factory;
     private EmployeeDAO emDao;
     private RoleDAO roleDao;
-    private String FILEPATH = "/home/ecc/Desktop/Training/09-26/ems/infra/build-tools/src/main/resources/hibernate.cfg.xml";
+    private String FILEPATH = "/home/ecc/Desktop/Training/09-26/ems/infra/persistence/src/main/resources/hibernate.cfg.xml";
     private File configFile = new File(FILEPATH);
     
-    public EmployeeManagement(){
+    public EmployeeService(){
         try{
             Configuration config = new Configuration().configure(configFile);
             //Configuration config = new Configuration().configure("/infra/src/main/resources/persistence/ems.cfg.xml");
             StandardServiceRegistry registry = new StandardServiceRegistryBuilder().applySettings(config.getProperties()).build();
             factory = config.buildSessionFactory(registry);
             emDao = new EmployeeDAO(factory);
-            roleDao = new RoleeDAO(factory);
+            roleDao = new RoleDAO(factory);
         }
         catch(HibernateException e){
             System.out.println("Initial creation failed. " + e);
@@ -38,15 +38,14 @@ public class EmployeeService{
         }
     }
     
-    public String addEmployee(Employee emp){
+    public void addEmployee(Employee emp){
         emDao.persist(emp);
-        return response;
     }
     
     public List listEmployee(){
         List<Employee> empList = null;
         
-        empList = emDao.findAll();
+        empList = emDao.findAll("FROM employee");
         return empList;
     }
     

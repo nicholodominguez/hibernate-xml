@@ -17,4 +17,13 @@
     <module>model</module>
     <module>service</module>
   </modules>
+  
+  <dependencies>
+    <dependency>
+      <groupId>com.ecc.ems</groupId>
+      <artifactId>infra</artifactId>
+      <version>${project.version}</version>
+      <type>pom</type>
+    </dependency>
+  </dependencies>
 </project>

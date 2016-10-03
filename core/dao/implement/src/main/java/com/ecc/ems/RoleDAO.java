@@ -11,9 +11,9 @@ import com.ecc.ems.Employee;
 import java.util.List;
 import java.util.Collection;
 
-public class RoleDAO extends BaseDAO implements RoleDAOInterface<Role, Int>{
+public class RoleDAO extends BaseDAO<Role, Integer> implements RoleDAOInterface{
         
     public RoleDAO(SessionFactory factory){
-        super(factory);
+        super(factory, Role.class);
     }
 }

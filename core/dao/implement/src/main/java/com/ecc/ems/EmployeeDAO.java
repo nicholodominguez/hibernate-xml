@@ -8,22 +8,24 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 
 import com.ecc.ems.Employee;
+import com.ecc.ems.EmployeeDAOInterface;
+import com.ecc.ems.BaseDAO;
 import java.util.List;
-import java.util.Collection;
+import java.util.Collections;
 
-public interface EmployeeDAO implements EmployeeDAOInterface{
+public class EmployeeDAO extends BaseDAO<Employee, Integer> implements EmployeeDAOInterface{
     
     private Criteria crit;
     
     public EmployeeDAO(SessionFactory factory) {
-        super(factory);
+        super(factory, Employee.class);
     }
     
     public List<Employee> sortByLastname(boolean ifAscending){
         
         List<Employee> entities = null;
         this.currentSession = factory.openSession();
-	    crit = this.currentSession().createCriteria(Employee.class);
+	    crit = this.currentSession.createCriteria(Employee.class);
 	    
 	    if(ifAscending){
 	        crit.addOrder( Order.asc("lastname") );    
@@ -51,7 +53,7 @@ public interface EmployeeDAO implements EmployeeDAOInterface{
         
         List<Employee> entities = null;
         this.currentSession = factory.openSession();
-	    crit = this.currentSession().createCriteria(Employee.class);
+	    crit = this.currentSession.createCriteria(Employee.class);
 	    
 	    if(ifAscending){
 	        crit.addOrder( Order.asc("date_hired") );    

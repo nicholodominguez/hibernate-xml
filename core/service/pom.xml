@@ -14,15 +14,8 @@
   <dependencies>
     <dependency>
       <groupId>com.ecc.ems</groupId>
-      <artifactId>dao</artifactId>
+      <artifactId>implement</artifactId>
       <version>${project.version}</version>
-      <type>pom</type>
-    </dependency>
-    <dependency>
-      <groupId>com.ecc.ems</groupId>
-      <artifactId>persistence</artifactId>
-      <version>${project.version}</version>
-      <type>pom</type>
-    </dependency>
+    </dependency>    
   </dependencies>  
 </project>

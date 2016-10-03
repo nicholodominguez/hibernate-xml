@@ -55,5 +55,24 @@ INSERT INTO role (role_name) VALUES
     ('Mentor'),
     ('Trainee');
 
+INSERT INTO contact (contact_type) VALUES 
+    ('Mobile'),
+    ('Landline'),
+    ('Email');
     
+INSERT INTO employee (firstname, middlename, lastname, suffix, title, street, brgy, municipality, zipcode, country, bdate, gwa, date_hired) VALUES 
+    ('Juan', 'Cortez', 'Dela Cruz', 'III', 'Mr.', '2573 M. Dela Cruz St.', 'Brgy. 133', 'Pasay City', '1303', 'Philippines', NOW(), '1.56', NOW());
     
+INSERT INTO emp_role (emp_id, role_id) VALUES 
+    ((SELECT emp_id FROM employee WHERE firstname = 'Juan'),
+    (SELECT role_id FROM role WHERE role_name = 'Software Developer', NOW())),
+    ((SELECT emp_id FROM employee WHERE firstname = 'Juan'),
+    (SELECT role_id FROM role WHERE role_name = 'Trainee'));
+    
+INSERT INTO emp_contact (emp_id, contact_id, details) VALUES 
+    ((SELECT emp_id FROM employee WHERE firstname = 'Juan'),
+    (SELECT contact_id FROM contact WHERE role_name = 'Mobile'),
+    '09161645157'),
+    ((SELECT emp_id FROM employee WHERE firstname = 'Juan'),
+    (SELECT contact_id FROM contact WHERE role_name = 'Email'),
+    'jdelacruz@exist.com');    

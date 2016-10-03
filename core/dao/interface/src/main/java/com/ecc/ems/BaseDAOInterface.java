@@ -6,14 +6,12 @@ import java.util.List;
 
 public interface BaseDAOInterface<T, Id extends Serializable>{
     
-    public void add(T entity);
-    
-    public void saveOrUpdate(T entity);
+    public void persist(T entity);
     
     public T findById(Id id);
     
-    public List<T> findAll();
+    public List<T> findAll(String query);
     
-    public List<T> delete(T entity);
+    public void delete(T entity);
 
 }
