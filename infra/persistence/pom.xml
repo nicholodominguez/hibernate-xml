@@ -10,14 +10,29 @@
   </parent>
   
   <artifactId>persistence</artifactId>
-  <packaging>pom</packaging>
   
-  <dependencies>
-    <dependency>
-      <groupId>com.ecc.ems</groupId>
-      <artifactId>build-tools</artifactId>
-      <version>${project.version}</version>
-      <type>pom</type>
-    </dependency>
-  </dependencies>
+  <properties>
+    <db.dialect>org.hibernate.dialect.PostgreSQLDialect</db.dialect>
+    <db.driverClass>org.postgresql.Driver</db.driverClass>
+    <db.url>jdbc:postgresql://localhost:5432/emsdb</db.url>
+    <db.username>postgres</db.username>
+    <db.password>postgres</db.password>
+  </properties>
+  
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+      </plugin>
+    </plugins>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <includes>
+          <include>**/*.xml</include>
+        </includes>
+      </resource>
+    </resources>
+  </build>
+
 </project>

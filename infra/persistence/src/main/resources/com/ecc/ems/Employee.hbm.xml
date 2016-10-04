@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.ecc.ems">
+  <class name="Employee" table="employee">
+    <meta attribute="class-description">
+      This class contains the employee detail.
+    </meta>
+    <id name="id" type="int" column="emp_id">
+      <generator class="native"/>
+    </id>
+    <component name="name" class="Name">
+        <property name="firstname" type="string"/>
+        <property name="middlename" type="string"/>
+        <property name="lastname" type="string"/>
+        <property name="suffix" type="string"/>
+        <property name="title" type="string"/>
+    </component>
+    <component name="address" class="Address"/>
+        <property name="street" type="string"/>
+        <property name="brgy" type="string"/>
+        <property name="municipality" type="string"/>
+        <property name="zipcode" type="string"/>
+        <property name="country" type="string"/>
+    </component>
+    <list name="contact" table="emp_contact" cascade="all">
+      <key column="emp_id"/>
+      <many-to-many column="contact_id" class="Contact"/>
+      <property name="detail" column="detail" type="string"/>
+      <property name="status" column="emp_status" type="string"/>
+    </list>
+    <property name="bdate" column="bdate" type="date"/>
+    <property name="gwa" column="gwa" type="double"/>
+    <property name="dateHired" column="dateHired" type="date"/>
+    <list name="roles" table="emp_role" cascade="all">
+      <key column="emp_id"/>
+      <many-to-many column="role_id" class="Role"/>
+    </list>
+    <property name="status" column="emp_status" type="string"/>
+  </class>
+</hibernate-mapping>
+

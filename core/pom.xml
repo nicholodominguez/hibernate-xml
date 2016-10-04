@@ -20,10 +20,8 @@
   
   <dependencies>
     <dependency>
-      <groupId>com.ecc.ems</groupId>
-      <artifactId>infra</artifactId>
-      <version>${project.version}</version>
-      <type>pom</type>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
     </dependency>
   </dependencies>
 </project>

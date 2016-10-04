@@ -35,7 +35,7 @@ public class App{
                 default:
                     System.out.println("Invalid input");
             }
-        } while (choice < 5);
+        } while (choice != 5);
     }
     
     public static int printMenu() {
