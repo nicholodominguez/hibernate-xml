@@ -21,6 +21,6 @@
       <groupId>com.ecc.ems</groupId>
       <artifactId>persistence</artifactId>
       <version>${project.version}</version>
-    </dependency>      
+    </dependency>     
   </dependencies>  
 </project>

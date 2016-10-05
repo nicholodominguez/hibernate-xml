@@ -2,6 +2,7 @@ package com.ecc.ems;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.ArrayList;
 import java.text.Format;
 import java.text.DateFormat;
@@ -10,22 +11,26 @@ import java.lang.Comparable;
 
 import com.ecc.ems.Name;
 import com.ecc.ems.Address;
+import com.ecc.ems.EmpContact;
+import com.ecc.ems.Role;
 
 public class Employee extends BaseEntity implements Comparable<Employee>{
     private Name name;
     private Address address;
     private Date bdate;
     private double gwa;
+    private List<EmpContact> contacts;
     private Date dateHired;
-    private List roles;
+    private List<Role> roles;
     
     public Employee() {}
     
-    public Employee(int id, Address address, Date bdate, double gwa, Date dateHired, List roles, boolean status) {
-        super(id, status);
+    public Employee(Address address, Date bdate, double gwa, List contacts, Date dateHired, List roles, boolean status) {
+        super(status);
         this.address = address;
         this.bdate = bdate;
         this.gwa = gwa;
+        this.contacts = contacts;
         this.dateHired = dateHired;    
         this.roles = roles;    
     }
@@ -44,6 +49,10 @@ public class Employee extends BaseEntity implements Comparable<Employee>{
     
     public double getGwa() {
         return gwa;
+    }
+    
+    public List getContacts() {
+        return contacts;
     }
     
     public Date getDateHired() {
@@ -68,6 +77,10 @@ public class Employee extends BaseEntity implements Comparable<Employee>{
     
     public void setGwa(double gwa) {
         this.gwa = gwa;
+    }
+    
+    public void setContacts(List contacts) {
+        this.contacts = contacts;
     }
     
     public void setDateHired(Date dateHired) {

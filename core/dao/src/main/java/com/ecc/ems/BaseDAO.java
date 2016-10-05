@@ -61,17 +61,15 @@ public abstract class BaseDAO<T, Id extends Serializable> implements BaseDAOInte
         List<T> entities = null;
         this.currentSession = this.factory.openSession();
 	    
-            System.out.println("BaseDAO findAll: entities.size() = " + entities.size());
 	    try{
             this.currentTransaction = this.currentSession.beginTransaction();
             entities = (List<T>) this.currentSession.createQuery(query).list();
-            
-            System.out.println("BaseDAO findAll: entities.size() = " + entities.size());
             this.currentTransaction.commit();
         }catch (HibernateException e) {
             if (this.currentTransaction != null) {
                 this.currentTransaction.rollback();
             }
+            System.out.println(e);
         }finally {
             this.currentSession.close();
         }    

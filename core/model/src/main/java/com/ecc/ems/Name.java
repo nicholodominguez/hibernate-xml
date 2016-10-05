@@ -58,6 +58,6 @@ public class Name{
     }
     
     public String getFullname() {
-        return this.getTitle() + ". " + this.getLastname() + ", " + this.getFirstname() + " " + this.getMiddlename() + " " + this.getSuffix(); 
+        return this.getTitle() + " " + this.getLastname() + ", " + this.getFirstname() + " " + this.getMiddlename() + " " + this.getSuffix(); 
     }
 }

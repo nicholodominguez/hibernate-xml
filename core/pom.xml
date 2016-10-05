@@ -13,9 +13,9 @@
   <packaging>pom</packaging>
   
   <modules>
+    <module>service</module>
     <module>dao</module>
     <module>model</module>
-    <module>service</module>
   </modules>
   
   <dependencies>

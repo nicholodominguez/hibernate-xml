@@ -77,12 +77,33 @@ public class App{
     
     public static void printEmployeeInfo(Employee emp, boolean isMenu) {
         List<String> empInfo = emp.stringify();
-        for(int i = 0; i < empInfo.size(); i++){
+        List<EmpContact> empContactInfo = emp.getContacts();
+        List<Role> empRoleInfo = emp.getRoles();
+        int i = 0;
+        
+        for(; i < empInfo.size(); i++){
             if(isMenu){
                 System.out.print("[" + i + "] "); 
             }
             System.out.println(empInfo.get(i));    
         }
+        
+        if(isMenu){
+            System.out.print("[" + i++ + "] "); 
+        }
+        System.out.println("Contacts :");
+        for(EmpContact em : empContactInfo){
+            System.out.println("\t" + em.stringfy());  
+        }
+        
+        if(isMenu){
+            System.out.print("[" + i++ + "] "); 
+        }
+        System.out.println("Roles :");
+        for(Role role : empRoleInfo){
+            System.out.println("\t" + role.getName());  
+        }
+        
     }
     
     public static void addEmployee(EmployeeService es) {

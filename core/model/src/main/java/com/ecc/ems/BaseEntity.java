@@ -6,8 +6,7 @@ class BaseEntity{
     
     public BaseEntity() {}
     
-    public BaseEntity(int id, boolean status) {
-        this.id = id;
+    public BaseEntity(boolean status) {
         this.status = status;
     }
     

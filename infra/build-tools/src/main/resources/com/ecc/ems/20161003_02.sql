@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS contact(
 );
 
 CREATE TABLE IF NOT EXISTS emp_role(
+    emp_role_id SERIAL PRIMARY KEY,
     emp_id SERIAL REFERENCES employee,
     role_id SERIAL REFERENCES role,
     emp_role_status boolean default true
@@ -39,6 +40,7 @@ CREATE TABLE IF NOT EXISTS emp_role(
 
 
 CREATE TABLE IF NOT EXISTS emp_contact(
+    emp_contact_id SERIAL PRIMARY KEY,
     emp_id SERIAL REFERENCES employee,
     contact_id SERIAL REFERENCES contact,
     details varchar(20) NOT NULL,

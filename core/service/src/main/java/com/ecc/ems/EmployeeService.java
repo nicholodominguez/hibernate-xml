@@ -28,8 +28,9 @@ public class EmployeeService{
     
     
     public EmployeeService(){
+        System.out.println(configFile);
         try{
-            Configuration config = new Configuration().configure();
+            Configuration config = new Configuration().configure(FILEPATH);
             //Configuration config = new Configuration().configure("/infra/src/main/resources/persistence/ems.cfg.xml");
             StandardServiceRegistry registry = new StandardServiceRegistryBuilder().applySettings(config.getProperties()).build();
             factory = config.buildSessionFactory(registry);
@@ -48,10 +49,8 @@ public class EmployeeService{
     
     public List listEmployee(){
         List<Employee> empList = null;
+        empList = emDao.findAll("from Employee");
         
-        empList = emDao.findAll("FROM employee");
-        emDao.testPrint();
-        //System.out.println("EmployeeService listEmployee: empList.size() = " + empList.size());
         return empList;
     }
     

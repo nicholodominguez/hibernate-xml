@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.ecc.ems">
+  <class name="EmpContact" table="emp_contact">
+    <meta attribute="class-description">
+      This class contains the contact details of the employee.
+    </meta>
+    <id name="id" type="int" column="emp_contact_id">
+      <generator class="native"/>
+    </id>
+    <property name="details" column="details" type="string"/>
+    <property name="status" column="emp_contact_status" type="boolean"/>
+    <join table="contact">
+      <key column="contact_id"/>
+      <many-to-one name="type" column="contact_type" not-null="true"/>
+    </join>
+  </class>
+</hibernate-mapping>
+

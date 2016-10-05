@@ -1,12 +1,12 @@
 package com.ecc.ems;
 
 public class Contact extends BaseEntity{
-    private String type;
+    protected String type;
     
     public Contact() {}
     
-    public Contact(int id, String type, boolean status) {
-        super(id, status);
+    public Contact(String type, boolean status) {
+        super(status);
         this.type = type;    
     }
     

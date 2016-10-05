@@ -48,12 +48,6 @@
         <artifactId>postgresql</artifactId>
         <version>${postgres.version}</version>
       </dependency>
-      <dependency>
-        <groupId>com.ecc.ems</groupId>
-        <artifactId>core</artifactId>
-        <version>${project.version}</version>
-        <type>pom</type>
-      </dependency>
     </dependencies>
   </dependencyManagement>
   

@@ -21,6 +21,6 @@
     <dependency>
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
-    </dependency>
+    </dependency>  
   </dependencies>
 </project>

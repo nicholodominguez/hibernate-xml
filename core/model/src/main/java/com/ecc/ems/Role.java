@@ -1,12 +1,12 @@
 package com.ecc.ems;
 
 public class Role extends BaseEntity{
-    private String name;
+    protected String name;
     
     public Role() {}
     
-    public Role(int id, String name, boolean status) {
-        super(id, status);
+    public Role(String name, boolean status) {
+        super(status);
         this.name = name;    
     }
     
