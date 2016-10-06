@@ -58,7 +58,7 @@ public class Address{
     }
     
     public String toString() {
-        return this.street + ", " + this.brgy + ", " + this.municipality + ", " + this.zipcode + ", " + this.country;
+        return this.street + ", " + this.brgy + ", " + this.municipality + ", " + this.country + ", " + this.zipcode;
     
     }
 }

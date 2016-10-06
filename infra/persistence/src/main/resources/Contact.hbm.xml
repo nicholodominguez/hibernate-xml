@@ -8,7 +8,9 @@
     <id name="id" type="int" column="contact_id">
       <generator class="native"/>
     </id>
-    <property name="type" column="contact_type" type="string"/>
+    <property name="contactType" column="contact_type" type="string"/>
+    <property name="empId" column="emp_id" type="int"/>
+    <property name="contactDetails" column="contact_details" type="string"/>
     <property name="status" column="contact_status" type="boolean"/>
   </class>
 </hibernate-mapping>

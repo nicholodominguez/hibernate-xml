@@ -11,7 +11,7 @@ import java.lang.Comparable;
 
 import com.ecc.ems.Name;
 import com.ecc.ems.Address;
-import com.ecc.ems.EmpContact;
+import com.ecc.ems.Contact;
 import com.ecc.ems.Role;
 
 public class Employee extends BaseEntity implements Comparable<Employee>{
@@ -19,13 +19,13 @@ public class Employee extends BaseEntity implements Comparable<Employee>{
     private Address address;
     private Date bdate;
     private double gwa;
-    private List<EmpContact> contacts;
+    private Set<Contact> contacts;
     private Date dateHired;
-    private List<Role> roles;
+    private Set<Role> roles;
     
     public Employee() {}
     
-    public Employee(Address address, Date bdate, double gwa, List contacts, Date dateHired, List roles, boolean status) {
+    public Employee(Address address, Date bdate, double gwa, Set contacts, Date dateHired, Set roles, boolean status) {
         super(status);
         this.address = address;
         this.bdate = bdate;
@@ -51,7 +51,7 @@ public class Employee extends BaseEntity implements Comparable<Employee>{
         return gwa;
     }
     
-    public List getContacts() {
+    public Set getContacts() {
         return contacts;
     }
     
@@ -59,7 +59,7 @@ public class Employee extends BaseEntity implements Comparable<Employee>{
         return dateHired;
     }
     
-    public List getRoles() {
+    public Set getRoles() {
         return roles;
     }
     
@@ -79,7 +79,7 @@ public class Employee extends BaseEntity implements Comparable<Employee>{
         this.gwa = gwa;
     }
     
-    public void setContacts(List contacts) {
+    public void setContacts(Set contacts) {
         this.contacts = contacts;
     }
     
@@ -87,7 +87,7 @@ public class Employee extends BaseEntity implements Comparable<Employee>{
         this.dateHired = dateHired;
     }
     
-    public void setRoles(List roles) {
+    public void setRoles(Set roles) {
         this.roles = roles;
     }
     

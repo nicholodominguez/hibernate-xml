@@ -58,6 +58,18 @@ public class Name{
     }
     
     public String getFullname() {
-        return this.getTitle() + " " + this.getLastname() + ", " + this.getFirstname() + " " + this.getMiddlename() + " " + this.getSuffix(); 
+        return this.getTitle() + " " + this.getFirstname() + " " + this.getMiddlename() + " " + this.getLastname() + ", " + this.getSuffix(); 
+    }
+    
+    public List stringify(){
+        ArrayList<String> list = new ArrayList();
+	    
+	    list.add("Title: " + this.getTitle());
+	    list.add("Firstname: " + this.getFirstname());
+	    list.add("Middlename: " + this.getMiddlename());
+	    list.add("Lastname: " + this.getLastname());
+	    list.add("Suffix: " + this.getMiddlename());	
+        
+        return list;
     }
 }

@@ -39,7 +39,6 @@
     <mapping resource="Employee.hbm.xml"/>
     <mapping resource="Role.hbm.xml"/>
     <mapping resource="Contact.hbm.xml"/>
-    <mapping resource="EmpContact.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>
 

@@ -22,12 +22,12 @@ public abstract class BaseDAO<T, Id extends Serializable> implements BaseDAOInte
         this.clazz = clazz;
     }
     
-    public void persist(T entity) {
+    public void saveOrUpdate(T entity) {
         this.currentSession = factory.openSession();
         
         try{
             this.currentTransaction = this.currentSession.beginTransaction();
-            this.currentSession.persist(entity);
+            this.currentSession.saveOrUpdate(entity);
             this.currentTransaction.commit();
         }catch (HibernateException e) {
             if (this.currentTransaction != null) {

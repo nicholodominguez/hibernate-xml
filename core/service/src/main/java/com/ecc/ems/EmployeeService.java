@@ -44,7 +44,7 @@ public class EmployeeService{
     }
     
     public void addEmployee(Employee emp){
-        emDao.persist(emp);
+        emDao.saveOrUpdate(emp);
     }
     
     public List listEmployee(){

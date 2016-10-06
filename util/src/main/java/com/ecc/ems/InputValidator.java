@@ -80,4 +80,50 @@ public final class InputValidator{
         
         return null;
     } 
+    
+    public static String getInputName(Name name, int choice){
+        
+        
+    }
+    
+    enum TitleEnum { 
+        MR("Mr."), 
+        MRS("Mrs."), 
+        MS("Ms."), 
+        MX("Mx."),  
+        ENGR("Engr."),
+        PROF("Prof."),
+        HON("Hon.")
+        
+        private String value;
+        private TitleEnum (String value){
+            this.value = value;
+        }
+    }
+    
+    enum ContactEnum { 
+        EMAIL("Email"), 
+        MOBILE("Mobile"), 
+        PHONE("Phone")
+        
+        private String value;
+        private ContactEnum (String value){
+            this.value = value;
+        }
+    }
+    
+    enum SuffixEnum { 
+        SR("Sr."), 
+        JR("Jr."), 
+        I("I"), 
+        II("II"), 
+        III("III"), 
+        IV("IV"), 
+        V("V")
+        
+        private String value;
+        private SuffixEnum (String value){
+            this.value = value;
+        }
+    }
 }

@@ -1,20 +1,40 @@
 package com.ecc.ems;
 
 public class Contact extends BaseEntity{
-    protected String type;
+    private String contactType;
+    private String contactDetails;
+    private int empId;
     
     public Contact() {}
     
-    public Contact(String type, boolean status) {
+    public Contact(String contactType, String contactDetails, int empId, boolean status) {
         super(status);
-        this.type = type;    
+        this.contactType = contactType;
+        this.empId = empId;
+        this.contactDetails = contactDetails;    
     }
     
-    public String getType() {
-        return type;
+    public String getContactType() {
+        return contactType;
     }
     
-    public void setType(String type) {
-        this.type = type;
+    public String getContactDetails() {
+        return contactDetails;
+    }
+    
+    public int getEmpId() {
+        return empId;
+    }
+    
+    public void setContactType(String contactType) {
+        this.contactType = contactType;
+    }
+    
+    public void setContactDetails(String contactDetails) {
+        this.contactDetails = contactDetails;
+    }
+    
+    public void setEmpId(int empId) {
+        this.empId = empId;
     }
 }

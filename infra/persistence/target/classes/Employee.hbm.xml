@@ -22,19 +22,17 @@
         <property column="zipcode" name="zipcode" type="string"/>
         <property column="country" name="country" type="string"/>
     </component>
-    <list name="contacts" table="emp_contact">
-      <key column="emp_contact_id"/>
-      <list-index column="emp_id"/>
-      <many-to-many column="contact_id" class="EmpContact" unique="true"/>
-    </list>
+    <set name="contacts" table="contact" lazy="false" fetch="join">
+      <key column="emp_id"/>
+      <one-to-many class="Contact"/>
+    </set>
     <property name="bdate" column="bdate" type="date"/>
     <property name="gwa" column="gwa" type="double"/>
     <property name="dateHired" column="date_hired" type="date"/>
-    <list name="roles" table="emp_role">
-      <key column="emp_role_id"/>
-      <list-index column="emp_id"/>
+    <set name="roles" table="emp_role" lazy="false" fetch="select">
+      <key column="emp_id"/>
       <many-to-many column="role_id" class="Role"/>
-    </list>
+    </set>
     <property name="status" column="emp_status" type="boolean"/>
   </class>
 </hibernate-mapping>
