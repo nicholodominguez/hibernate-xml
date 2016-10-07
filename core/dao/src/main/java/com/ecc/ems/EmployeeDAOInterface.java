@@ -12,5 +12,7 @@ public interface EmployeeDAOInterface extends BaseDAOInterface<Employee, Integer
     public List<Employee> sortByDateHired(boolean ifAscending);
     
     public List<Employee> sortByGwa(boolean ifAscending);
+    
+    public List<Employee> searchEmployee(String keyword);
 
 }

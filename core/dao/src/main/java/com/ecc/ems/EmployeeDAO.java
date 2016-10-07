@@ -103,4 +103,27 @@ public class EmployeeDAO extends BaseDAO<Employee, Integer> implements EmployeeD
 	    
 	    return entities;
     }
+    
+    public List<Employee> searchEmployee(String keyword){
+    
+        List<Employee> entities = null;
+        this.currentSession = factory.openSession();
+	    
+	    try{
+            this.currentTransaction = this.currentSession.beginTransaction();
+            entities = (List<Employee>) this.currentSession.createQuery("from Employee").list();
+            
+                Collections.sort(entities);
+            
+            this.currentTransaction.commit();
+        }catch (HibernateException e) {
+            if (this.currentTransaction != null) {
+                this.currentTransaction.rollback();
+            }
+        }finally {
+            this.currentSession.close();
+        }    
+	    
+	    return entities;
+    }
 }

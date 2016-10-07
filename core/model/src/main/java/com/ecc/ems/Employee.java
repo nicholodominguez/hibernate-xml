@@ -18,15 +18,16 @@ public class Employee extends BaseEntity implements Comparable<Employee>{
     private Name name;
     private Address address;
     private Date bdate;
-    private double gwa;
+    private Double gwa;
     private Set<Contact> contacts;
     private Date dateHired;
     private Set<Role> roles;
     
     public Employee() {}
     
-    public Employee(Address address, Date bdate, double gwa, Set contacts, Date dateHired, Set roles, boolean status) {
+    public Employee(Name name, Address address, Date bdate, Double gwa, Set contacts, Date dateHired, Set roles, boolean status) {
         super(status);
+        this.name = name;
         this.address = address;
         this.bdate = bdate;
         this.gwa = gwa;
@@ -47,7 +48,7 @@ public class Employee extends BaseEntity implements Comparable<Employee>{
         return bdate;
     }
     
-    public double getGwa() {
+    public Double getGwa() {
         return gwa;
     }
     
@@ -75,7 +76,7 @@ public class Employee extends BaseEntity implements Comparable<Employee>{
         this.bdate = bdate;
     }
     
-    public void setGwa(double gwa) {
+    public void setGwa(Double gwa) {
         this.gwa = gwa;
     }
     
@@ -98,14 +99,44 @@ public class Employee extends BaseEntity implements Comparable<Employee>{
 	
 	public List<String> stringify() {
 	    DateFormat df = new SimpleDateFormat("MMM/dd/yyyy");
+	    
 	    ArrayList<String> list = new ArrayList();
 	    
-	    list.add("Name: " + this.name.getFullname());
-	    list.add("Address: " + this.address.toString());
-	    list.add("Birthdate: " + df.format(this.getBdate()));
-        list.add("GWA: " + String.valueOf(this.getGwa()));	
-        list.add("Date Hired: " + df.format(this.getDateHired()));	
-        
+	    if(this.name != null){
+	        list.add("Name: " + this.name.getFullname());
+	    }
+	    else{
+	        list.add("Name: ");
+	    }
+	    
+	    if(this.address != null){
+	        list.add("Address: " + this.address.toString());
+	    }
+	    else{
+	        list.add("Address: ");
+	    }
+	    
+	    if(this.getBdate() != null){
+	        list.add("Birthdate: " + df.format(this.getBdate()));
+        }
+	    else{
+	        list.add("Birthdate: ");
+	    }
+	    
+	    if(this.getGwa() != null){
+	        list.add("GWA: " + String.valueOf(this.getGwa()));	
+        }
+	    else{
+	        list.add("GWA: ");
+	    }
+	    
+	    if(this.getDateHired() != null){
+	        list.add("Date Hired: " + df.format(this.getDateHired()));	
+        }
+	    else{
+	        list.add("Date Hired: ");
+	    }
+	    
         return list;
 	}
 }

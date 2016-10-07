@@ -1,7 +1,12 @@
 package com.ecc.ems;
 
 import java.util.Scanner;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
+import java.util.Date;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Validate;
+
 public final class InputValidator{
     
     public static int getInputInt(String msg, boolean nonZero){
@@ -81,49 +86,182 @@ public final class InputValidator{
         return null;
     } 
     
-    public static String getInputName(Name name, int choice){
+    public static Date getInputDate(String msg){
+        Scanner sc = new Scanner(System.in);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date inputDate;
+        String input = "";
+        boolean isValid = false;
         
+        while(!isValid){
+            System.out.print(msg);
+            if(sc.hasNextLine()){
+                input = sc.nextLine();
+                try{
+                    inputDate = sdf.parse(input);
+                }
+                catch(ParseException e){
+                    System.out.println("Invalid input, must be in yyyy-mm-dd format.");
+                    continue;
+                }
+                if(input.length() > 10 || inputDate == null){
+                    System.out.println("Invalid input, must be in yyyy-mm-dd format.");               
+                }
+                else{
+                    return inputDate;     
+                }
+            }           
+        }
         
+        return null;
     }
     
-    enum TitleEnum { 
+    public static Double getInputDouble(String msg){
+        Scanner sc = new Scanner(System.in);
+        boolean isAlpha = true;
+        Double row = 0.0;
+        
+        while(isAlpha){
+            try{
+                System.out.print(msg);
+                row = Double.parseDouble(sc.nextLine());
+                if(row < 1.0){
+                    System.out.println("Integer too low, it should be greater than 1.0");    
+                }
+                else if(row > 5.0){
+                    System.out.println("Integer too high, it should be less than 5.0");
+                }
+                else isAlpha = false;
+            }catch(NumberFormatException e){
+                isAlpha = true;
+                System.out.println("Input not an integer");
+            }
+        }    
+        
+
+        return row;    
+    }
+    
+    /* int choice: 1 - title, 2 - firstname, 3 - middlename, 4 - lastname,  5 - suffix */
+    public static String getInputName(int choice){
+        Scanner sc = new Scanner(System.in);    
+        String input = null;
+        boolean inEnum = false;
+        
+        switch(choice){
+            case 1:
+                while(!inEnum){
+                    input = InputValidator.getInputStr("Enter title: ", 5);
+                    //inEnum = TitleEnum.isValidEnum(input);
+                    inEnum = true;
+                    if (!inEnum){
+                        System.out.println("Invalid title. Title should be Mr., Mrs., Ms., Mx., Engr., Prof., or Hon.");
+                    }
+                }
+                break;
+            case 2:
+                do{
+                    input = InputValidator.getInputStr("Enter First name: ", 30);
+                    if(input.length() < 1){
+                        System.out.println("First name should not be empty");
+                    }
+                }while(input.length() < 1);            
+                break;
+            case 3:
+                do{
+                    input = InputValidator.getInputStr("Enter Middle name: ", 30);
+                    if(input.length() < 1){
+                        System.out.println("Middle name should not be empty");
+                    }
+                }while(input.length() < 1);                
+                break;
+            case 4:
+                do{
+                    input = InputValidator.getInputStr("Enter Last name: ", 30);
+                    if(input.length() < 1){
+                        System.out.println("Last name should not be empty");
+                    }
+                }while(input.length() < 1);                
+                break;
+            case 5:
+                while(!inEnum){
+                    input = InputValidator.getInputStr("Enter suffix: ", 5);
+                    //inEnum = SuffixEnum.isValidEnum(input);
+                    inEnum = true;
+                    if (!inEnum){
+                        System.out.println("Invalid suffix. Suffix should be Sr., Jr., I, II, III, IV, or IV");
+                    }
+                }
+                break;              
+        }
+        
+        return input;
+    }
+    
+    public enum TitleEnum { 
         MR("Mr."), 
         MRS("Mrs."), 
         MS("Ms."), 
         MX("Mx."),  
         ENGR("Engr."),
         PROF("Prof."),
-        HON("Hon.")
+        HON("Hon."),
+        EMPTY("");
         
         private String value;
         private TitleEnum (String value){
             this.value = value;
         }
+        public static boolean inEnum (String input) {
+            for(TitleEnum enm: TitleEnum.values()){
+                if(enm.value.equals(input)){
+                    return true;
+                }
+            }
+            return false;
+        }
     }
     
-    enum ContactEnum { 
+    public enum ContactEnum { 
         EMAIL("Email"), 
         MOBILE("Mobile"), 
-        PHONE("Phone")
+        PHONE("Phone");
         
         private String value;
         private ContactEnum (String value){
             this.value = value;
         }
+        public static boolean inEnum (String input) {
+            for(ContactEnum enm: ContactEnum.values()){
+                if(enm.value.equals(input)){
+                    return true;
+                }
+            }
+            return false;
+        }
     }
     
-    enum SuffixEnum { 
+    public enum SuffixEnum { 
         SR("Sr."), 
         JR("Jr."), 
         I("I"), 
         II("II"), 
         III("III"), 
         IV("IV"), 
-        V("V")
+        V("V"),
+        EMPTY("");
         
         private String value;
         private SuffixEnum (String value){
             this.value = value;
+        }
+        public static boolean inEnum (String input) {
+            for(SuffixEnum enm: SuffixEnum.values()){
+                if(enm.value.equals(input)){
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

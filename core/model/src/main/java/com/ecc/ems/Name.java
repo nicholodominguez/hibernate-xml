@@ -1,5 +1,8 @@
 package com.ecc.ems;
 
+import java.util.List;
+import java.util.ArrayList;
+
 public class Name{
     private String firstname;
     private String middlename;
@@ -58,17 +61,68 @@ public class Name{
     }
     
     public String getFullname() {
-        return this.getTitle() + " " + this.getFirstname() + " " + this.getMiddlename() + " " + this.getLastname() + ", " + this.getSuffix(); 
+        String result = "";
+        
+        if(this.getTitle() != null){
+	        result = result.concat(this.getTitle());
+	    }
+	    
+	    if(this.getFirstname() != null){
+	        result = result.concat(" ").concat(this.getFirstname());
+	    }
+	    
+	    if(this.getMiddlename() != null){
+	        result = result.concat(" ").concat(this.getMiddlename());
+	    }
+	    
+	    if(this.getLastname() != null){
+	        result = result.concat(" ").concat(this.getLastname());
+	    }
+	    
+	    if(this.getSuffix() != null){
+	        result = result.concat(", ").concat(this.getSuffix());
+	    }
+	    
+	    return result;
     }
     
-    public List stringify(){
+    public List<String> stringify(){
         ArrayList<String> list = new ArrayList();
 	    
-	    list.add("Title: " + this.getTitle());
-	    list.add("Firstname: " + this.getFirstname());
-	    list.add("Middlename: " + this.getMiddlename());
-	    list.add("Lastname: " + this.getLastname());
-	    list.add("Suffix: " + this.getMiddlename());	
+	    if(this.getTitle() != null){
+	        list.add("Title: " + this.getTitle());
+	    }
+	    else{
+	        list.add("Title: ");
+	    }
+	    
+	    if(this.getFirstname() != null){
+	        list.add("Firstname: " + this.getFirstname());
+	    }
+	    else{
+	        list.add("Firstname: ");
+	    }
+	    
+	    if(this.getMiddlename() != null){
+	        list.add("Middlename: " + this.getMiddlename());
+	    }
+	    else{
+	        list.add("Middlename: ");
+	    }
+	    
+	    if(this.getLastname() != null){
+	        list.add("Lastname: " + this.getLastname());
+	    }
+	    else{
+	        list.add("Lastname: ");
+	    }
+	    
+	    if(this.getSuffix() != null){
+	        list.add("Suffix: " + this.getSuffix());	
+        }
+        else{
+            list.add("Suffix: ");
+        }
         
         return list;
     }

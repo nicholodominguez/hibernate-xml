@@ -1,5 +1,8 @@
 package com.ecc.ems;
 
+import java.util.List;
+import java.util.ArrayList;
+
 public class Address{
     private String street;
     private String brgy;
@@ -58,7 +61,69 @@ public class Address{
     }
     
     public String toString() {
-        return this.street + ", " + this.brgy + ", " + this.municipality + ", " + this.country + ", " + this.zipcode;
+        String result = "";
+        
+        if(this.getStreet() != null){
+	        result = result.concat(this.getStreet());
+	    }
+	    
+	    if(this.getBrgy() != null){
+	        result = result.concat(", ").concat(this.getBrgy());
+	    }
+	    
+	    if(this.getMunicipality() != null){
+	        result = result.concat(", ").concat(this.getMunicipality());
+	    }
+	    
+	    if(this.getCountry() != null){
+	        result = result.concat(", ").concat(this.getCountry());
+	    }
+	    
+	    if(this.getZipcode() != null){
+	        result = result.concat(", ").concat(this.getZipcode());
+	    }
+	    
+	    return result;
+    }
     
+    public List<String> stringify(){
+        ArrayList<String> list = new ArrayList();
+	    
+	    if(this.getStreet() != null){
+	        list.add("Street: " + this.getStreet());
+	    }
+	    else{
+	        list.add("Street: ");
+	    }
+	    
+	    if(this.getBrgy() != null){
+	        list.add("Brgy: " + this.getBrgy());
+	    }
+	    else{
+	        list.add("Brgy: ");
+	    }
+	    
+	    if(this.getMunicipality() != null){
+	        list.add("Municipality: " + this.getMunicipality());
+	    }
+	    else{
+	        list.add("Municipality: ");
+	    }
+	    
+	    if(this.getCountry() != null){
+	        list.add("Country: " + this.getCountry());
+	    }
+	    else{
+	        list.add("Country: ");
+	    }
+	    
+	    if(this.getZipcode() != null){
+	        list.add("Zipcode: " + this.getZipcode());	
+        }
+        else{
+            list.add("Zipcode: ");
+        }
+        
+        return list;
     }
 }

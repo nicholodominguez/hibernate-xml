@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface BaseDAOInterface<T, Id extends Serializable>{
     
-    public void persist(T entity);
+    public void saveOrUpdate(T entity);
     
     public T findById(Id id);
     

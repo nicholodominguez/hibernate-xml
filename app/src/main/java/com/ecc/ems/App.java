@@ -18,30 +18,28 @@ public class App{
     public static void main(String args[]) {
          
         EmployeeService em = new EmployeeService();
-        int choice, int empId;
+        int choice;
         
         do{
             choice = App.printMenu();
             switch(choice) {
                 case 1:
                     Employee emp = new Employee();
-                    emp.setName(new Name());
-                    emp.setAddress(new Address());
                     
-                    App.editEmployee(emp);
+                    App.editEmployee(em, emp);
                     break;
                 case 2:
                     App.printEmployees(em);
                     break;
                 case 3:
-                    emp = App.searchEmployee("edit");
+                    //emp = App.searchEmployee("edit");
                     
-                    App.editEmployee(empId);
+                    //App.editEmployee(empId);
                     break;
                 case 4:
-                    emp = App.searchEmployee("delete");
+                    //emp = App.searchEmployee("delete");
                     
-                    App.editEmployee(empId);
+                    //App.editEmployee(empId);
                     break;
                 case 5:
                     break;
@@ -58,6 +56,7 @@ public class App{
     }
     
     public static int printMenu() {
+        System.out.println();
         System.out.println("==============================");
         System.out.println("|----------------------------|");
         System.out.println("| Employee Management System |");
@@ -80,13 +79,14 @@ public class App{
         return InputValidator.getInputMenu(" Option: ", 8);
     }
     
-    public static void printAddEmployeeMenu(Employee emp) {
+    public static int printAddEmployeeMenu(Employee emp) {
+        System.out.println();
         System.out.println("============================");
         System.out.println(" Employee Creation          ");
         System.out.println("============================");
         printEmployeeInfo(emp, true);
         System.out.println("----------------------------");
-        return InputValidator.getInputMenu(" Option: ", 8);
+        return InputValidator.getInputMenu(" Option: ", 9);
     }
     
     public static void printEmployeeInfo(Employee emp, boolean isMenu) {
@@ -95,65 +95,91 @@ public class App{
         Set<Role> empRoleInfo = emp.getRoles();
         int i = 1;
         
-        for(; i < empInfo.size(); i++){
+        System.out.println();
+        for(; i <= empInfo.size(); i++){
             if(isMenu){
                 System.out.print("[" + i + "] "); 
             }
-            System.out.println(empInfo.get(i));    
+            System.out.println(empInfo.get(i-1));    
         }
         
         if(isMenu){
             System.out.print("[" + i++ + "] "); 
         }
         System.out.println("Contacts:");
-        for(Contact contact : empContactInfo){
-            System.out.println("\t" + contact.getContactType() + ": " + contact.getContactDetails());  
+        
+        if(empContactInfo != null){
+            for(Contact contact : empContactInfo){
+                System.out.println("\t" + contact.getContactType() + ": " + contact.getContactDetails());  
+            }
         }
         
         if(isMenu){
             System.out.print("[" + i++ + "] "); 
         }
         System.out.println("Roles :");
-        for(Role role : empRoleInfo){
-            System.out.println("\t" + role.getName());  
+        if(empRoleInfo != null){
+            for(Role role : empRoleInfo){
+                System.out.println("\t" + role.getName());  
+            }
         }
-        
     }
     
-    public static void editEmployee(EmployeeService es) {
+    public static void editEmployee(EmployeeService em, Employee emp) {
         Name nameInput;
         Address addressInput;
-        int choice = 0;
+        Date dateInput;
+        String strInput;
+        Double gwaInput;
+        int choice = 1;
         
         do{
             choice = App.printAddEmployeeMenu(emp);
             switch(choice) {
                 case 1:
-                    nameInput = App.nameMenu(emp.getName());
-                    emp.setName(nameInput);
+                    nameInput = emp.getName() == null ? new Name() : emp.getName();
+                    nameInput = App.nameMenu(nameInput);
+                    if(nameInput != null){
+                        emp.setName(nameInput);
+                    }
                     break;
                 case 2:
+                    addressInput = emp.getAddress() == null ? new Address() : emp.getAddress();
+                    addressInput = App.addressMenu(addressInput);
+                    if(addressInput != null){
+                        emp.setAddress(addressInput);
+                    }
                     break;
                 case 3:
+                    dateInput = InputValidator.getInputDate("Enter birthdate (yyyy-mm-dd): ");
+                    if(dateInput != null){
+                        emp.setBdate(dateInput);
+                    }
                     break;
                 case 4:
+                    gwaInput = InputValidator.getInputDouble("Enter GWA: ");
+                    emp.setGwa(gwaInput);
                     break;
                 case 5:
+                    dateInput = InputValidator.getInputDate("Enter date hired (yyyy-mm-dd): ");
+                    if(dateInput != null){
+                        emp.setDateHired(dateInput);
+                    }
                     break;
                 case 6:
+                    // CONTINUE ADD CONTACT
                     break;
                 case 7:
                     break;
                 case 8:
+                    em.addEmployee(emp);
                     break;
                 case 9:
-                    break;
-                case 0:
                     break;
                 default:
                     System.out.println("Invalid input");
             }
-        } while (choice != 0);
+        } while (choice != 9);
            
     }
     
@@ -161,6 +187,7 @@ public class App{
         List<Employee> empList = es.listEmployee();
         int i = 1;
         
+        System.out.println();
         if(empList != null){
             for(Employee emp : empList){
                 System.out.println("----------------------------");
@@ -187,7 +214,6 @@ public class App{
                     name.setTitle(input);
                     break;
                 case 2:
-                    // CONTINUE HERE
                     input = InputValidator.getInputName(choice);
                     name.setFirstname(input);
                     break;
@@ -204,28 +230,92 @@ public class App{
                     name.setSuffix(input);
                     break;
                 case 6:
-                    break;
+                    return name;
                 case 7:
-                    
-                    break;
+                    return null;
             }
         } while (choice != 7);
+        
+        return null;
     }
     
     public static int printNameMenu(Name name){
-        int i = 0;
+        int i = 1;
          
-        nameInfo = name.stringify();
+        List<String> nameInfo = name.stringify();
+        System.out.println();
         System.out.println("============================");
         System.out.println(" Name");
         System.out.println("============================");
-        for(String info : name.stringify()){
+        for(String info : nameInfo){
             System.out.println("[" + i++ + "] " + info);
         }
+        System.out.println("[" + i++ + "] Save");
+        System.out.println("[" + i++ + "] Cancel");
         System.out.println("----------------------------");
         return InputValidator.getInputMenu(" Option: ", 7);
     
     }
+    
+    /* int choice: 1 - street, 2 - brgy, 3 - municipality, 4 - country,  5 - zipcode */
+    public static Address addressMenu(Address address){
+        int choice = 1;   
+        int i; 
+        List<String> addressInfo;
+        String input;
+        
+        do{    
+            choice = printAddressMenu(address);
+            switch(choice) {
+                case 1:
+                    input = InputValidator.getInputStr("Enter street: ", 30);
+                    address.setStreet(input);
+                    break;
+                case 2:
+                    // CONTINUE HERE
+                    input = InputValidator.getInputStr("Enter brgy: ", 30);
+                    address.setBrgy(input);
+                    break;
+                case 3:
+                    input = InputValidator.getInputStr("Enter municipality: ", 30);
+                    address.setMunicipality(input);
+                    break;
+                case 4:
+                    input = InputValidator.getInputStr("Enter country: ", 30);
+                    address.setCountry(input);
+                    break;
+                case 5:
+                    input = InputValidator.getInputStr("Enter zipcode: ", 30);
+                    address.setZipcode(input);
+                    break;
+                case 6:
+                    return address;
+                case 7:
+                    return null;
+            }
+        } while (choice != 7);
+        
+        return null;
+    }
+    
+    public static int printAddressMenu(Address address){
+        int i = 1;
+         
+        List<String> addressInfo = address.stringify();
+        System.out.println();
+        System.out.println("============================");
+        System.out.println(" Address");
+        System.out.println("============================");
+        for(String info : addressInfo){
+            System.out.println("[" + i++ + "] " + info);
+        }
+        System.out.println("[" + i++ + "] Save");
+        System.out.println("[" + i++ + "] Cancel");
+        System.out.println("----------------------------");
+        return InputValidator.getInputMenu(" Option: ", 7);
+    
+    }
+    
     /*public static Employee searchEmployees(String type) {
         List<Employee> empList = es.listEmployee();
         int i = 1;
