@@ -1,5 +1,7 @@
 package com.ecc.ems;
 
+import java.util.List;
+
 public class Contact extends BaseEntity{
     private String contactType;
     private String contactDetails;
@@ -36,5 +38,9 @@ public class Contact extends BaseEntity{
     
     public void setEmpId(int empId) {
         this.empId = empId;
+    }
+    
+    public String stringify(){
+        return "\t" + this.contactType + ": " + this.contactDetails; 
     }
 }

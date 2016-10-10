@@ -29,10 +29,11 @@ public class App{
                     App.editEmployee(em, emp);
                     break;
                 case 2:
-                    App.printEmployees(em);
+                    List<Employee> empList = em.listEmployee();
+                    App.printEmployees(empList, false);
                     break;
                 case 3:
-                    //emp = App.searchEmployee("edit");
+                    emp = App.searchEmployee(em, "edit");
                     
                     //App.editEmployee(empId);
                     break;
@@ -42,12 +43,16 @@ public class App{
                     //App.editEmployee(empId);
                     break;
                 case 5:
+                    Role role = new Role();
+                    
+                    App.addNewRoleType(em, role);
                     break;
                 case 6:
                     break;
                 case 7:
                     break;
                 case 8:
+                    System.exit(0);
                     break;
                 default:
                     System.out.println("Invalid input");
@@ -85,6 +90,8 @@ public class App{
         System.out.println(" Employee Creation          ");
         System.out.println("============================");
         printEmployeeInfo(emp, true);
+        System.out.println("[8] Save");
+        System.out.println("[9] Cancel");
         System.out.println("----------------------------");
         return InputValidator.getInputMenu(" Option: ", 9);
     }
@@ -130,8 +137,11 @@ public class App{
         Address addressInput;
         Date dateInput;
         String strInput;
+        Set<Contact> contactsInput;
+        Set<Role> rolesInput;
         Double gwaInput;
         int choice = 1;
+        Integer empId = emp.getId();
         
         do{
             choice = App.printAddEmployeeMenu(emp);
@@ -167,11 +177,29 @@ public class App{
                     }
                     break;
                 case 6:
-                    // CONTINUE ADD CONTACT
+                    if(empId == null){
+                        System.out.println("Can't add contacts. Save the employee info first.");
+                        continue;
+                    }
+                    contactsInput = emp.getContacts() == null ? new HashSet<Contact>() : emp.getContacts();
+                    contactsInput = App.contactsMenu(contactsInput, empId);
+                    if(contactsInput != null){
+                        emp.setContacts(contactsInput);
+                    }
                     break;
                 case 7:
+                    if(empId == null){
+                        System.out.println("Can't add roles. Save the employee info first.");
+                        continue;
+                    }
+                    rolesInput = emp.getRoles() == null ? new HashSet<Role>() : emp.getRoles();
+                    rolesInput = App.rolesMenu(em, rolesInput, empId);
+                    if(rolesInput != null){
+                        emp.setRoles(rolesInput);
+                    }
                     break;
                 case 8:
+                    emp.setStatus(true);
                     em.addEmployee(emp);
                     break;
                 case 9:
@@ -179,23 +207,29 @@ public class App{
                 default:
                     System.out.println("Invalid input");
             }
-        } while (choice != 9);
+        } while (choice != 9 && choice != 8 );
            
     }
     
-    public static void printEmployees(EmployeeService es) {
-        List<Employee> empList = es.listEmployee();
+    public static void printEmployees(List<Employee> empList, boolean isMenu) {
         int i = 1;
         
         System.out.println();
+        
         if(empList != null){
             for(Employee emp : empList){
-                System.out.println("----------------------------");
+                System.out.println("============================");
+                if(isMenu){
+                    System.out.print("[" + i + "] ");
+                }
                 System.out.println("Employee " + i++);
-                System.out.println("----------------------------");
+                System.out.println("============================");
                 App.printEmployeeInfo(emp, false);
-                System.out.println("----------------------------");
+                System.out.println();
             }
+        }
+        else{
+            System.out.println("No employee found.");
         }   
     }
     
@@ -234,7 +268,7 @@ public class App{
                 case 7:
                     return null;
             }
-        } while (choice != 7);
+        } while (choice != 6 && choice != 7);
         
         return null;
     }
@@ -293,7 +327,7 @@ public class App{
                 case 7:
                     return null;
             }
-        } while (choice != 7);
+        } while (choice != 6 && choice != 7);
         
         return null;
     }
@@ -316,18 +350,265 @@ public class App{
     
     }
     
-    /*public static Employee searchEmployees(String type) {
-        List<Employee> empList = es.listEmployee();
+    public static Set contactsMenu(Set contactsInput, int empId){
+        int choice = 1;   
+        int i; 
+        Contact contactInput;
+        String input;
+        
+        do{    
+            choice = printContactsMenu(contactsInput);
+            switch(choice) {
+                case 1:
+                    contactsInput = addNewContact(contactsInput, empId);
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    return contactsInput;
+                case 5:
+                    return null;
+            }
+        } while (choice != 4 && choice != 5);
+        
+        return null;
+    }
+    
+    public static int printContactsMenu(Set<Contact> contactsInput){        
+        List<String> contactInfo = new ArrayList<String>();
+         
+        for(Contact contact : contactsInput){
+            contactInfo.add(contact.stringify());    
+        } 
+        System.out.println();
+        System.out.println("============================");
+        System.out.println(" Contacts");
+        System.out.println("============================");
+        for(String info : contactInfo){
+            System.out.println(info);
+        }
+        System.out.println("----------------------------");
+        System.out.println("[1] Add");
+        System.out.println("[2] Edit");
+        System.out.println("[3] Delete");
+        System.out.println("[4] Save");
+        System.out.println("[5] Cancel");
+        System.out.println("----------------------------");
+        return InputValidator.getInputMenu(" Option: ", 5);
+    }
+    
+    public static Set addNewContact(Set contactsInput, int empId){
+        int choice = 1;
+        Contact newContact;
+        String newContactStr;
+        
+        do{    
+            choice = addNewContactMenu(contactsInput);
+            switch(choice) {
+                case 1:
+                    newContactStr = InputValidator.getInputMobile();
+                    newContact = new Contact("Mobile", newContactStr, empId, true);
+                    
+                    if(contactsInput.contains(newContact)){
+                        System.out.println("Contact already exists");
+                        continue;
+                    }
+                    
+                    contactsInput.add(newContact);
+                    break;
+                case 2:
+                    newContactStr = InputValidator.getInputEmail();
+                    newContact = new Contact("Email", newContactStr, empId, true);
+                    
+                    if(contactsInput.contains(newContact)){
+                        System.out.println("Email already exists");
+                        continue;
+                    }
+                    
+                    contactsInput.add(newContact);
+                    break;
+                case 3:
+                    newContactStr = InputValidator.getInputPhone();
+                    newContact = new Contact("Phone", newContactStr, empId, true);
+                    
+                    if(contactsInput.contains(newContact)){
+                        System.out.println("Phone already exists");
+                        continue;
+                    }
+                    
+                    contactsInput.add(newContact);
+                    break;
+                case 4:
+                    return contactsInput;
+                case 5:
+                    return null;
+            }
+        } while (choice != 4 && choice != 5);
+        
+        return null; 
+    }
+    
+    public static int addNewContactMenu(Set<Contact> contactsInput){  
+    
+        List<String> contactInfo = new ArrayList<String>();
+        
+        for(Contact contact : contactsInput){
+            contactInfo.add(contact.stringify());    
+        }
+         
+        System.out.println();
+        System.out.println("============================");
+        System.out.println(" Contacts");
+        System.out.println("============================");
+        for(String info : contactInfo){
+            System.out.println(info);
+        }
+        System.out.println("----------------------------");
+        System.out.println("[1] Add Mobile");
+        System.out.println("[2] Add Email");
+        System.out.println("[3] Add Phone");
+        System.out.println("[4] Save");
+        System.out.println("[5] Back");
+        System.out.println("----------------------------");
+        return InputValidator.getInputMenu(" Option: ", 5);
+    
+    }
+    
+    public static Employee searchEmployee(EmployeeService es, String type) {
+        List<Employee> empList;
+        Employee temp = null;
+        int i = 1, choice = 1;
+        String input;
+        
+        input = InputValidator.getInputStr("Enter name of employee to " + type + ": ", 30);
+        empList = es.searchEmployeeByName(input);
+        if(empList.size() > 1){
+            App.printEmployees(empList, true);
+            choice = InputValidator.getInputMenu(" Enter the employee no. to be " + type + "ed: ", empList.size());
+        }
+        else if(empList.size() == 0){
+            System.out.println("No employee found.");
+            return temp;
+        }
+        temp = empList.get(choice-1);
+        
+        switch(type){
+            case "edit":
+                App.editEmployee(es, temp);
+                break;
+        }
+        
+        return temp;
+    }
+    
+    public static Set rolesMenu(EmployeeService es, Set rolesInput, int empId){
+        int choice = 1;   
+        int i; 
+        Role roleInput;
+        String input;
+        Set<Role> temp = null;
+        
+        do{    
+            choice = printRolesMenu(rolesInput);
+            switch(choice) {
+                case 1:
+                    temp = addNewRole(es, rolesInput, empId);
+                    rolesInput = temp == null ? rolesInput : temp;
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    return rolesInput;
+                case 4:
+                    return null;
+            }
+        } while (choice != 3 && choice != 4);
+        
+        return null;
+    }
+    
+    public static int printRolesMenu(Set<Role> rolesInput){        
+        List<String> roleInfo = new ArrayList<String>();
+         
+        for(Role role : rolesInput){
+            roleInfo.add(role.getName());    
+        } 
+        System.out.println();
+        System.out.println("============================");
+        System.out.println(" Roles");
+        System.out.println("============================");
+        for(String info : roleInfo){
+            System.out.println(info);
+        }
+        System.out.println("----------------------------");
+        System.out.println("[1] Add");
+        System.out.println("[2] Delete");
+        System.out.println("[3] Save");
+        System.out.println("[4] Cancel");
+        System.out.println("----------------------------");
+        return InputValidator.getInputMenu(" Option: ", 4);
+    }
+    
+    public static Set addNewRole(EmployeeService es, Set<Role> rolesInput, int empId){
+        int choice = 1;
+        Contact newRole;
+        List<Role> availableRoles = null;
         int i = 1;
         
-        if(empList != null){
-            for(Employee emp : empList){
-                System.out.println("----------------------------");
-                System.out.println("Employee " + i++);
-                System.out.println("----------------------------");
-                App.printEmployeeInfo(emp, false);
-                System.out.println("----------------------------");
+        availableRoles = es.getAvailableRoles(rolesInput);
+         
+        System.out.println();
+        System.out.println("============================");
+        System.out.println(" Current Roles");
+        System.out.println("============================");
+        
+        for(Role role : rolesInput){
+            System.out.println("\t" + role.getName());
+        }
+        
+        System.out.println("----------------------------");
+        System.out.println(availableRoles);
+        
+        if(availableRoles != null){
+            for(Role role : availableRoles){
+                System.out.println("[" + i++ + "] " + role.getName());
             }
-        }   
-    }*/
+        }
+        
+        System.out.println("[" + i++ + "] Cancel");
+        System.out.println("----------------------------");
+        choice = InputValidator.getInputMenu(" Add what role: ", i-1);
+        if(choice != i-1){
+            rolesInput.add(availableRoles.get(choice-1));
+            return rolesInput;
+        }
+        
+        return null;
+    }
+    
+    public static void addNewRoleType(EmployeeService es, Role role){
+        List<Role> allRoles = es.listRoles();
+        
+        System.out.println();
+        System.out.println("============================");
+        System.out.println(" Current Roles");
+        System.out.println("============================");
+        printRoles(allRoles, false);
+        System.out.println("----------------------------");
+        //CONTINUE HERE
+    }
+    
+    public static void printRoles(List<Role> roles, boolean isMenu){
+        int i = 1;
+        
+        for(Role role : roles){
+            if(isMenu){
+                System.out.print("[" + i++ + "] ");
+            }
+            System.out.println(role.getName());
+        }
+    
+    }
 }

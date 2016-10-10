@@ -4,6 +4,7 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -47,7 +48,7 @@ public class EmployeeService{
         emDao.saveOrUpdate(emp);
     }
     
-    public List listEmployee(){
+    public List<Employee> listEmployee(){
         List<Employee> empList = null;
         empList = emDao.findAll("from Employee");
         
@@ -77,6 +78,32 @@ public class EmployeeService{
     
     public void deleteEmployee(Employee emp){
         emDao.delete(emp);
+    }
+    
+    public List searchEmployeeByName(String keyword){
+        List<Employee> empList = null;
+        
+        empList = emDao.searchEmployee(keyword);
+        return empList;
+    }
+    
+    public List<Role> getAvailableRoles(Set<Role> roles){
+        List<Role> roleList = null;
+        
+        if(roles.size() > 0){
+            roleList = roleDao.getAssignableRoles(roles);
+        }
+        else{
+            roleList = roleDao.findAll("from Role");
+        }
+        return roleList;
+    }
+    
+    public List<Role> listRoles(){
+        List<Role> roleList = null;
+        roleList = roleDao.findAll("from Role");
+        
+        return roleList;
     }
 
 }

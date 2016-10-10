@@ -6,6 +6,8 @@ import org.hibernate.Transaction;
 import org.hibernate.SessionFactory;
 import org.hibernate.Criteria; 
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.Projections;
 
 import com.ecc.ems.Employee;
 import com.ecc.ems.EmployeeDAOInterface;
@@ -108,13 +110,16 @@ public class EmployeeDAO extends BaseDAO<Employee, Integer> implements EmployeeD
     
         List<Employee> entities = null;
         this.currentSession = factory.openSession();
+	    crit = this.currentSession.createCriteria(Employee.class).add(Restrictions.disjunction()
+	                  .add(Restrictions.sqlRestriction("firstname like '%"+keyword+"%'"))
+	                  .add(Restrictions.sqlRestriction("middlename like '%"+keyword+"%'"))
+	                  .add(Restrictions.sqlRestriction("lastname like '%"+keyword+"%'"))
+	                  .add(Restrictions.sqlRestriction("suffix like '%"+keyword+"%'")))
+	                  .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 	    
 	    try{
             this.currentTransaction = this.currentSession.beginTransaction();
-            entities = (List<Employee>) this.currentSession.createQuery("from Employee").list();
-            
-                Collections.sort(entities);
-            
+            entities = crit.list();
             this.currentTransaction.commit();
         }catch (HibernateException e) {
             if (this.currentTransaction != null) {

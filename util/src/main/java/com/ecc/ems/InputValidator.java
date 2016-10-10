@@ -4,6 +4,8 @@ import java.util.Scanner;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
 import java.util.Date;
+import java.lang.IllegalArgumentException;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 
@@ -71,7 +73,7 @@ public final class InputValidator{
             System.out.print(msg);
             if(sc.hasNextLine()){
                 input = sc.nextLine();
-                if(input.length() > maxLen*2){
+                if(input.length() > maxLen){
                     System.out.println("Input too long. Max char of " + maxLen);               
                 }
                 else if (!StringUtils.isAsciiPrintable(input)) {
@@ -196,6 +198,92 @@ public final class InputValidator{
         }
         
         return input;
+    }
+    
+    public static String getInputMobile(){
+        Scanner sc = new Scanner(System.in);
+        boolean isValid = false;
+        String input = "";
+
+        while(!isValid){
+            System.out.print("Enter mobile no : ");
+            if(sc.hasNextLine()){
+                input = sc.nextLine();
+                if(input.length() > 11){
+                    System.out.println("Input too long. String size should be of size 11.");               
+                }
+                else if(input.length() < 11){
+                    System.out.println("Input too short. String size should be of size 11.");               
+                }
+                else if (!StringUtils.isAsciiPrintable(input)) {
+                    System.out.println("Contains invalid character.");
+                }
+                
+                try {
+                    Validate.matchesPattern(input, "09\\d{9}", "%s is not a valid phone number. Format should be 09xxxxxxxxx.", input);   
+                } catch (IllegalArgumentException e) {
+                    continue;
+                }
+                
+                return input;
+            }           
+        }
+        
+        return null;    
+    }
+    
+    public static String getInputEmail(){
+        Scanner sc = new Scanner(System.in);
+        boolean isValid = false;
+        String input = "";
+
+        while(!isValid){
+            System.out.print("Enter email: ");
+            if(sc.hasNextLine()){
+                input = sc.nextLine();
+                try{
+                    Validate.matchesPattern(input, "[\\w\\.\\-]+\\@\\w+\\.\\w", " is not a valid email", input);
+                } catch (IllegalArgumentException e) {
+                    continue;
+                }
+                
+                if (!StringUtils.isAsciiPrintable(input)) {
+                    System.out.println("Contains invalid character.");
+                }
+                else{
+                    return input;     
+                }
+            }           
+        }
+        
+        return null;    
+    }
+    
+    public static String getInputPhone(){
+        Scanner sc = new Scanner(System.in);
+        boolean isValid = false;
+        String input = "";
+
+        while(!isValid){
+            System.out.print("Enter phone: ");
+            if(sc.hasNextLine()){
+                input = sc.nextLine();
+                try{
+                    Validate.matchesPattern(input, "\\d{3}\\-\\d{4}", " is not a valid phone. Format should be 111-1111.", input);
+                } catch (IllegalArgumentException e) {
+                    continue;
+                }
+                
+                if (!StringUtils.isAsciiPrintable(input)) {
+                    System.out.println("Contains invalid character.");
+                }
+                else{
+                    return input;     
+                }
+            }           
+        }
+        
+        return null;    
     }
     
     public enum TitleEnum { 

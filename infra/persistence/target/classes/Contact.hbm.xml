@@ -6,7 +6,7 @@
       This class contains the contact type detail.
     </meta>
     <id name="id" type="int" column="contact_id">
-      <generator class="native"/>
+      <generator class="increment"/>
     </id>
     <property name="contactType" column="contact_type" type="string"/>
     <property name="empId" column="emp_id" type="int"/>

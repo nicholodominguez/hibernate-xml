@@ -92,9 +92,4 @@ public abstract class BaseDAO<T, Id extends Serializable> implements BaseDAOInte
             this.currentSession.close();
         }   
     }
-    
-    public void testPrint(){
-        System.out.println("Test print");
-    }
-
 }
