@@ -27,18 +27,18 @@ public class EmployeeDAO extends BaseDAO<Employee, Integer> implements EmployeeD
         
         List<Employee> entities = null;
         this.currentSession = factory.openSession();
-	    crit = this.currentSession.createCriteria(Employee.class);
+	    this.crit = this.currentSession.createCriteria(Employee.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 	    
 	    if(ifAscending){
-	        crit.addOrder( Order.asc("lastname") );    
+	        this.crit.addOrder( Order.asc("name.lastname") );    
 	    }
 	    else{
-	        crit.addOrder( Order.desc("lastname") );
+	        this.crit.addOrder( Order.desc("name.lastname") );
 	    }
 	    
 	    try{
             this.currentTransaction = this.currentSession.beginTransaction();
-            entities = crit.list();
+            entities = this.crit.list();
             this.currentTransaction.commit();
         }catch (HibernateException e) {
             if (this.currentTransaction != null) {
@@ -55,18 +55,18 @@ public class EmployeeDAO extends BaseDAO<Employee, Integer> implements EmployeeD
         
         List<Employee> entities = null;
         this.currentSession = factory.openSession();
-	    crit = this.currentSession.createCriteria(Employee.class);
+	    this.crit = this.currentSession.createCriteria(Employee.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 	    
 	    if(ifAscending){
-	        crit.addOrder( Order.asc("date_hired") );    
+	        this.crit.addOrder( Order.asc("dateHired") );    
 	    }
 	    else{
-	        crit.addOrder( Order.desc("date_hired") );
+	        this.crit.addOrder( Order.desc("dateHired") );
 	    }
 	    
 	    try{
             this.currentTransaction = this.currentSession.beginTransaction();
-            entities = crit.list();
+            entities = this.crit.list();
             this.currentTransaction.commit();
         }catch (HibernateException e) {
             if (this.currentTransaction != null) {
@@ -89,10 +89,10 @@ public class EmployeeDAO extends BaseDAO<Employee, Integer> implements EmployeeD
             this.currentTransaction = this.currentSession.beginTransaction();
             entities = (List<Employee>) this.currentSession.createQuery("from Employee").list();
             if (ifAscending){
-                Collections.sort(entities);
+                Collections.sort(entities, Collections.reverseOrder());
             }
             else{
-                Collections.sort(entities, Collections.reverseOrder());
+                Collections.sort(entities);
             }
             this.currentTransaction.commit();
         }catch (HibernateException e) {
@@ -110,7 +110,7 @@ public class EmployeeDAO extends BaseDAO<Employee, Integer> implements EmployeeD
     
         List<Employee> entities = null;
         this.currentSession = factory.openSession();
-	    crit = this.currentSession.createCriteria(Employee.class).add(Restrictions.disjunction()
+	    this.crit = this.currentSession.createCriteria(Employee.class).add(Restrictions.disjunction()
 	                  .add(Restrictions.sqlRestriction("firstname like '%"+keyword+"%'"))
 	                  .add(Restrictions.sqlRestriction("middlename like '%"+keyword+"%'"))
 	                  .add(Restrictions.sqlRestriction("lastname like '%"+keyword+"%'"))
@@ -119,7 +119,7 @@ public class EmployeeDAO extends BaseDAO<Employee, Integer> implements EmployeeD
 	    
 	    try{
             this.currentTransaction = this.currentSession.beginTransaction();
-            entities = crit.list();
+            entities = this.crit.list();
             this.currentTransaction.commit();
         }catch (HibernateException e) {
             if (this.currentTransaction != null) {

@@ -29,25 +29,23 @@ public class App{
                     App.editEmployee(em, emp);
                     break;
                 case 2:
-                    List<Employee> empList = em.listEmployee();
-                    App.printEmployees(empList, false);
+                    App.listMenu(em);
                     break;
                 case 3:
                     emp = App.searchEmployee(em, "edit");
                     
-                    //App.editEmployee(empId);
+                    App.editEmployee(em, emp);
                     break;
                 case 4:
-                    //emp = App.searchEmployee("delete");
+                    emp = App.searchEmployee(em, "delete");
                     
-                    //App.editEmployee(empId);
+                    App.deleteEmployee(em, emp);
                     break;
-                case 5:
-                    Role role = new Role();
-                    
-                    App.addNewRoleType(em, role);
+                case 5:                    
+                    App.addNewRoleType(em);
                     break;
                 case 6:
+                    App.editRoleType(em);
                     break;
                 case 7:
                     break;
@@ -132,6 +130,60 @@ public class App{
         }
     }
     
+    public static void listMenu(EmployeeService es){
+        List<Employee> empList = null;
+        int choice = 1;
+        boolean ascending = true;
+        
+        choice = printListMenu();
+        
+        if(choice == 4){
+            return;
+        }
+        
+        ascending = printOrderMenu() == 1 ? true : false;
+        switch(choice){
+            case 1:
+                empList = es.listEmployeeByDateHired(ascending);
+                break;
+            case 2:
+                empList = es.listEmployeeByLastname(ascending);
+                break;
+            case 3:
+                empList = es.listEmployeeByGwa(ascending);
+                break;
+            case 4:
+                break;
+        }
+        
+        
+        App.printEmployees(empList, false);
+    }
+    
+    public static int printListMenu(){
+        System.out.println();
+        System.out.println("============================");
+        System.out.println(" Sort list by:  ");
+        System.out.println("============================");
+        System.out.println(" [1] Date Hired");
+        System.out.println(" [2] Last name");
+        System.out.println(" [3] GWA");
+        System.out.println(" [4] Cancel");
+        System.out.println("============================");
+        return InputValidator.getInputMenu(" Option: ", 4);
+    }
+    
+    public static int printOrderMenu(){
+        System.out.println();
+        System.out.println("============================");
+        System.out.println(" Order:  ");
+        System.out.println("============================");
+        System.out.println(" [1] Ascending");
+        System.out.println(" [2] Descending");
+        System.out.println("============================");
+        return InputValidator.getInputMenu(" Option: ", 2);
+    }
+    
     public static void editEmployee(EmployeeService em, Employee emp) {
         Name nameInput;
         Address addressInput;
@@ -185,6 +237,8 @@ public class App{
                     contactsInput = App.contactsMenu(contactsInput, empId);
                     if(contactsInput != null){
                         emp.setContacts(contactsInput);
+                        em.updateEmployee(emp);
+                        System.out.println("After save: "+emp.getContacts().size());
                     }
                     break;
                 case 7:
@@ -199,15 +253,14 @@ public class App{
                     }
                     break;
                 case 8:
-                    emp.setStatus(true);
-                    em.addEmployee(emp);
-                    break;
+                    em.updateEmployee(emp);
+                    return;
                 case 9:
                     break;
                 default:
                     System.out.println("Invalid input");
             }
-        } while (choice != 9 && choice != 8 );
+        } while (choice != 8  && choice != 9);
            
     }
     
@@ -365,6 +418,8 @@ public class App{
                 case 2:
                     break;
                 case 3:
+                    contactsInput = deleteContact(contactsInput, empId);
+                    System.out.println("After delete: "+contactsInput.size());
                     break;
                 case 4:
                     return contactsInput;
@@ -476,6 +531,30 @@ public class App{
     
     }
     
+    public static Set deleteContact(Set<Contact> contactsInput, int empId){
+        int i = 1;
+        int choice;       
+        List<Contact> contactList = new ArrayList<Contact>();
+         
+        System.out.println();
+        System.out.println("============================");
+        System.out.println(" Contacts");
+        System.out.println("============================");
+        for(Contact contact : contactsInput){
+            System.out.print("[" + i++ + "] ");
+            System.out.println(contact.stringify());
+            contactList.add(contact);    
+        }
+        System.out.println("[" + i + "] Cancel");
+        choice = InputValidator.getInputMenu(" Select contact to delete: ", i);
+        
+        if(choice == i){
+            return contactsInput;
+        }
+        contactsInput.remove(contactList.get(choice-1));
+        return contactsInput;
+    }
+    
     public static Employee searchEmployee(EmployeeService es, String type) {
         List<Employee> empList;
         Employee temp = null;
@@ -493,12 +572,6 @@ public class App{
             return temp;
         }
         temp = empList.get(choice-1);
-        
-        switch(type){
-            case "edit":
-                App.editEmployee(es, temp);
-                break;
-        }
         
         return temp;
     }
@@ -588,20 +661,83 @@ public class App{
         return null;
     }
     
-    public static void addNewRoleType(EmployeeService es, Role role){
+    public static void addNewRoleType(EmployeeService es){
         List<Role> allRoles = es.listRoles();
+        String input = "";
+        int choice = 1;
+        Role newRole;
+        boolean accepted = false;
+        
+        do{
+            printRoles(allRoles, false);
+        
+            System.out.println("============================");
+            System.out.println(" [1] Add Role");
+            System.out.println(" [2] Cancel");
+            System.out.println("============================");
+            choice = InputValidator.getInputMenu(" Option: ", 2);
+            
+            switch(choice){
+                case 1: 
+                    while(!accepted){
+                        input = InputValidator.getInputStr(" New Role: ", 50);
+                        for(Role role : allRoles){
+                            if(InputValidator.isEqual(role.getName(), input)){
+                                System.out.println("Role already exists.");
+                            }
+                        }
+                        newRole = new Role(input, true);
+                        es.addRole(newRole);
+                        break;
+                    }
+                case 2:
+                    break;
+            }
+        }while(choice != 2);        
+    }
+    
+    public static void editRoleType(EmployeeService es){
+        List<Role> allRoles = es.listRoles();
+        String input = "";
+        Role tempRole = null;
+        int choice = 1, roleCount = allRoles.size();
+        boolean accepted = false;
+        
+        do{
+            printRoles(allRoles, true);
+        
+            System.out.println("============================");
+            System.out.println(" [" + (roleCount + 1)+ "] Cancel");
+            System.out.println("============================");
+            choice = InputValidator.getInputMenu(" Role to edit: ", roleCount + 1);
+            if(choice == roleCount+1){
+                break;
+            }
+            tempRole = allRoles.get(choice-1);
+            while(!accepted){
+                input = InputValidator.getInputStr(" Edit Role to: ", 50);
+                for(Role role : allRoles){
+                    if(InputValidator.isEqual(role.getName(), input)){
+                        System.out.println("Role already exists.");
+                    }
+                }
+                tempRole.setName(input);
+                allRoles.set(choice-1, tempRole);
+                es.addRole(tempRole);
+                break;
+            }
+            
+        } while (choice != roleCount + 1);       
+    }
+    
+    public static void printRoles(List<Role> roles, boolean isMenu){
+        int i = 1;
+        
         
         System.out.println();
         System.out.println("============================");
         System.out.println(" Current Roles");
         System.out.println("============================");
-        printRoles(allRoles, false);
-        System.out.println("----------------------------");
-        //CONTINUE HERE
-    }
-    
-    public static void printRoles(List<Role> roles, boolean isMenu){
-        int i = 1;
         
         for(Role role : roles){
             if(isMenu){
@@ -609,6 +745,27 @@ public class App{
             }
             System.out.println(role.getName());
         }
+        
+        System.out.println();
+    }
     
+    public static void deleteEmployee(EmployeeService es, Employee emp){
+        int i = 1;
+        int choice = 1;
+        
+        System.out.println();
+        System.out.println(" Are you sure you want to delete " + emp.getName().getFullname() + "?");
+        System.out.println(" [1] Yes");
+        System.out.println(" [2] No");
+        choice = InputValidator.getInputMenu(" Option: ", 2);
+        
+        switch(choice){
+            case 1:
+                es.deleteEmployee(emp);
+                break;
+            case 2:
+                break;
+        }
+        System.out.println();
     }
 }

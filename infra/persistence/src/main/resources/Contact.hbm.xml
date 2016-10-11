@@ -6,10 +6,9 @@
       This class contains the contact type detail.
     </meta>
     <id name="id" type="int" column="contact_id">
-      <generator class="increment"/>
+      <generator class="sequence"/>
     </id>
     <property name="contactType" column="contact_type" type="string"/>
-    <property name="empId" column="emp_id" type="int"/>
     <property name="contactDetails" column="contact_details" type="string"/>
     <property name="status" column="contact_status" type="boolean"/>
   </class>

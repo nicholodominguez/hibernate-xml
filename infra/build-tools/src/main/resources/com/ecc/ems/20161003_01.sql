@@ -65,7 +65,7 @@ INSERT INTO employee (firstname, middlename, lastname, suffix, title, street, br
     
 INSERT INTO emp_role (emp_id, role_id) VALUES 
     ((SELECT emp_id FROM employee WHERE firstname = 'Juan'),
-    (SELECT role_id FROM role WHERE role_name = 'Software Developer', NOW())),
+    (SELECT role_id FROM role WHERE role_name = 'Software Developer')),
     ((SELECT emp_id FROM employee WHERE firstname = 'Juan'),
     (SELECT role_id FROM role WHERE role_name = 'Trainee'));
     

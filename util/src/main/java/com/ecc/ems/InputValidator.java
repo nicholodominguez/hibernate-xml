@@ -286,6 +286,10 @@ public final class InputValidator{
         return null;    
     }
     
+    public static boolean isEqual(String str1, String str2){
+        return StringUtils.equalsIgnoreCase(str1, str2);    
+    }
+    
     public enum TitleEnum { 
         MR("Mr."), 
         MRS("Mrs."), 

@@ -6,7 +6,7 @@
       This class contains the role detail.
     </meta>
     <id name="id" type="int" column="role_id">
-      <generator class="increment"/>
+      <generator class="sequence"/>
     </id>
     <property name="name" column="role_name" type="string"/>
     <property name="status" column="role_status" type="boolean"/>

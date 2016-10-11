@@ -28,6 +28,24 @@ public abstract class BaseDAO<T, Id extends Serializable> implements BaseDAOInte
         try{
             this.currentTransaction = this.currentSession.beginTransaction();
             this.currentSession.saveOrUpdate(entity);
+            this.currentSession.flush();
+            this.currentTransaction.commit();
+        }catch (HibernateException e) {
+            if (this.currentTransaction != null) {
+                this.currentTransaction.rollback();
+            }
+        }finally {
+            this.currentSession.close();
+        }
+    }
+    
+    public void update(T entity) {
+        this.currentSession = factory.openSession();
+        
+        try{
+            this.currentTransaction = this.currentSession.beginTransaction();
+            this.currentSession.update(entity);
+            this.currentSession.flush();
             this.currentTransaction.commit();
         }catch (HibernateException e) {
             if (this.currentTransaction != null) {
@@ -83,6 +101,7 @@ public abstract class BaseDAO<T, Id extends Serializable> implements BaseDAOInte
         try{
             this.currentTransaction = this.currentSession.beginTransaction();
             this.currentSession.delete(entity);
+            this.currentSession.flush();
             this.currentTransaction.commit();
         }catch (HibernateException e) {
             if (this.currentTransaction != null) {

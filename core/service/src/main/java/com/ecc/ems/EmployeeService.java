@@ -48,6 +48,10 @@ public class EmployeeService{
         emDao.saveOrUpdate(emp);
     }
     
+    public void updateEmployee(Employee emp){
+        emDao.update(emp);
+    }
+    
     public List<Employee> listEmployee(){
         List<Employee> empList = null;
         empList = emDao.findAll("from Employee");
@@ -99,11 +103,19 @@ public class EmployeeService{
         return roleList;
     }
     
+    public void addRole(Role role){
+        roleDao.saveOrUpdate(role);
+    }
+    
     public List<Role> listRoles(){
         List<Role> roleList = null;
         roleList = roleDao.findAll("from Role");
         
         return roleList;
+    }
+    
+    public void deleteRole(Role role){
+        roleDao.delete(role);
     }
 
 }

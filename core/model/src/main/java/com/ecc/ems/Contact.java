@@ -41,6 +41,6 @@ public class Contact extends BaseEntity{
     }
     
     public String stringify(){
-        return "\t" + this.contactType + ": " + this.contactDetails; 
+        return this.contactType + ": " + this.contactDetails; 
     }
 }
