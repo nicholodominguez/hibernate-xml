@@ -37,9 +37,6 @@
     <property name="hibernate.id.new_generator_mappings">
       false
     </property>
-    <property name="show_sql">
-      true
-    </property>
     
     <!-- List of XML mapping files -->
     <mapping resource="Employee.hbm.xml"/>

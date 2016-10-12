@@ -114,6 +114,10 @@ public class EmployeeService{
         return roleList;
     }
     
+    public void updateRole(Role role){
+        roleDao.update(role);
+    }
+    
     public void deleteRole(Role role){
         roleDao.delete(role);
     }

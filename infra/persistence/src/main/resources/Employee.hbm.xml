@@ -22,16 +22,16 @@
         <property column="zipcode" name="zipcode" type="string"/>
         <property column="country" name="country" type="string"/>
     </component>
-    <set name="contacts" table="contact" cascade="save-update, all-delete-orphan" lazy="false">
-      <key column="emp_id" not-null="true"/>
+    <set name="contacts" table="contact" cascade="save-update, delete" lazy="false">
+      <key column="emp_id" not-null="true" update="false"/>
       <one-to-many class="Contact"/>
     </set>
     <property name="bdate" column="bdate" type="date"/>
     <property name="gwa" column="gwa" type="double"/>
     <property name="dateHired" column="date_hired" type="date"/>
-    <set name="roles" table="emp_role" cascade="save-update, delete-orphan" inverse="true" lazy="false" fetch="select">
+    <set name="roles" table="emp_role" cascade="save-update, all-delete-orphan" inverse="false" lazy="false" fetch="select">
       <key column="emp_id" not-null="true" update="false"/>
-      <many-to-many column="role_id" class="Role"/>
+      <many-to-many column="role_id" class="Role" unique="true"/>
     </set>
     <property name="status" column="emp_status" type="boolean"/>
   </class>

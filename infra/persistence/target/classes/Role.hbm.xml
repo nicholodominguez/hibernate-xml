@@ -10,6 +10,10 @@
     </id>
     <property name="name" column="role_name" type="string"/>
     <property name="status" column="role_status" type="boolean"/>
+    <set name="employees" table="emp_role" cascade="delete-orphan" inverse="false" lazy="false" fetch="select">
+      <key column="role_id" not-null="true" update="false"/>
+      <many-to-many column="emp_id" class="Employee"/>
+    </set>
   </class>
 </hibernate-mapping>
 

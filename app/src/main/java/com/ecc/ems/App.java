@@ -48,6 +48,7 @@ public class App{
                     App.editRoleType(em);
                     break;
                 case 7:
+                    App.deleteRoleType(em);
                     break;
                 case 8:
                     System.exit(0);
@@ -250,10 +251,11 @@ public class App{
                     rolesInput = App.rolesMenu(em, rolesInput, empId);
                     if(rolesInput != null){
                         emp.setRoles(rolesInput);
+                        em.updateEmployee(emp);
                     }
                     break;
                 case 8:
-                    em.updateEmployee(emp);
+                    em.addEmployee(emp);
                     return;
                 case 9:
                     break;
@@ -410,16 +412,17 @@ public class App{
         String input;
         
         do{    
+            System.out.println(empId);
             choice = printContactsMenu(contactsInput);
             switch(choice) {
                 case 1:
                     contactsInput = addNewContact(contactsInput, empId);
                     break;
                 case 2:
+                    contactsInput = editContact(contactsInput);
                     break;
                 case 3:
-                    contactsInput = deleteContact(contactsInput, empId);
-                    System.out.println("After delete: "+contactsInput.size());
+                    contactsInput = deleteContact(contactsInput);
                     break;
                 case 4:
                     return contactsInput;
@@ -460,6 +463,7 @@ public class App{
         String newContactStr;
         
         do{    
+            System.out.println(empId);
             choice = addNewContactMenu(contactsInput);
             switch(choice) {
                 case 1:
@@ -531,7 +535,52 @@ public class App{
     
     }
     
-    public static Set deleteContact(Set<Contact> contactsInput, int empId){
+    public static Set editContact(Set<Contact> contactsInput){
+        int i = 1;
+        int choice;       
+        List<Contact> contactList = new ArrayList<Contact>();
+        Contact temp;
+        String input = "";
+         
+        System.out.println();
+        System.out.println("============================");
+        System.out.println(" Contacts");
+        System.out.println("============================");
+        for(Contact contact : contactsInput){
+            System.out.print("[" + i++ + "] ");
+            System.out.println(contact.stringify());
+            contactList.add(contact);    
+        }
+        System.out.println("[" + i + "] Cancel");
+        choice = InputValidator.getInputMenu(" Select contact to edit: ", i);
+        
+        if(choice == i){
+            return contactsInput;
+        }
+        temp = contactList.get(choice-1);
+        contactsInput.remove(temp);
+        
+        switch(temp.getContactType()){
+            case "Mobile":
+                System.out.println("New mobile no.: ");
+                input = InputValidator.getInputMobile();
+                break;
+            case "Email":
+                System.out.println("New email: ");
+                input = InputValidator.getInputEmail();
+                break;
+            case "Phone":
+                System.out.println("New phone no.: ");
+                input = InputValidator.getInputPhone();
+                break;
+        }
+        
+        temp.setContactDetails(input);
+        contactsInput.add(temp);
+        return contactsInput;
+    }
+    
+    public static Set deleteContact(Set<Contact> contactsInput){
         int i = 1;
         int choice;       
         List<Contact> contactList = new ArrayList<Contact>();
@@ -563,13 +612,13 @@ public class App{
         
         input = InputValidator.getInputStr("Enter name of employee to " + type + ": ", 30);
         empList = es.searchEmployeeByName(input);
-        if(empList.size() > 1){
-            App.printEmployees(empList, true);
-            choice = InputValidator.getInputMenu(" Enter the employee no. to be " + type + "ed: ", empList.size());
-        }
-        else if(empList.size() == 0){
+        if(empList == null){
             System.out.println("No employee found.");
             return temp;
+        }
+        else if(empList.size() > 1){
+            App.printEmployees(empList, true);
+            choice = InputValidator.getInputMenu(" Enter the employee no. to be " + type + "ed: ", empList.size());
         }
         temp = empList.get(choice-1);
         
@@ -688,6 +737,7 @@ public class App{
                         }
                         newRole = new Role(input, true);
                         es.addRole(newRole);
+                        allRoles.add(newRole);
                         break;
                     }
                 case 2:
@@ -749,9 +799,36 @@ public class App{
         System.out.println();
     }
     
+    public static void deleteRoleType(EmployeeService es){
+        List<Role> allRoles = es.listRoles();
+        String input = "";
+        Role tempRole = null;
+        int choice = 1, roleCount = allRoles.size();
+        boolean accepted = false;
+        
+        do{
+            printRoles(allRoles, true);
+        
+            System.out.println("============================");
+            System.out.println(" [" + (roleCount + 1)+ "] Cancel");
+            System.out.println("============================");
+            choice = InputValidator.getInputMenu(" Role to delete: ", roleCount + 1);
+            if(choice == roleCount+1){
+                break;
+            }
+            
+            tempRole = allRoles.get(choice-1);
+            tempRole.setEmployees(new HashSet<Employee>());
+            es.updateRole(tempRole);
+            es.deleteRole(tempRole);
+            break;   
+        } while (choice != roleCount + 1);   
+    }
+    
     public static void deleteEmployee(EmployeeService es, Employee emp){
         int i = 1;
         int choice = 1;
+        Set<Role> roles;
         
         System.out.println();
         System.out.println(" Are you sure you want to delete " + emp.getName().getFullname() + "?");
@@ -761,6 +838,8 @@ public class App{
         
         switch(choice){
             case 1:
+                emp.setRoles(new HashSet<Role>());
+                es.updateEmployee(emp);
                 es.deleteEmployee(emp);
                 break;
             case 2:
